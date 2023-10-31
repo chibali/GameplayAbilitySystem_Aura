@@ -37,6 +37,6 @@ private:
 	void Move(const FInputActionValue& InputActionValue);
 
 	void CursorTrace();
-	TObjectPtr<IEnemyInterface> LastActor;
-	TObjectPtr<IEnemyInterface> CurrentActor;
+	IEnemyInterface* LastActor;
+	IEnemyInterface* CurrentActor;
 };
