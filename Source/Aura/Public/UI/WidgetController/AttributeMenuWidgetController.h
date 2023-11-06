@@ -8,12 +8,12 @@
 
 struct FOnAttributeChangeData;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributesChangedSignature, float, NewValue);
 
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class AURA_API UAttributeMenuWidgetController : public UAuraWidgetController
 {
 	GENERATED_BODY()
@@ -23,47 +23,47 @@ public:
 	virtual void BindCallbacksToDependencies() override;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnStrengthChanged;
+	FOnAttributesChangedSignature OnStrengthChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnIntelligenceChanged;
+	FOnAttributesChangedSignature OnIntelligenceChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnDexterityChanged;
+	FOnAttributesChangedSignature OnDexterityChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnResilienceChanged;
+	FOnAttributesChangedSignature OnResilienceChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnVigorChanged;
+	FOnAttributesChangedSignature OnVigorChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnArmorChanged;
+	FOnAttributesChangedSignature OnArmorChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnArmorPenetrationChanged;
+	FOnAttributesChangedSignature OnArmorPenetrationChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnBlockChanceChanged;
+	FOnAttributesChangedSignature OnBlockChanceChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnCriticalHitChanceChanged;
+	FOnAttributesChangedSignature OnCriticalHitChanceChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnCriticalHitDamageChanged;
+	FOnAttributesChangedSignature OnCriticalHitDamageChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnCriticalHitResistanceChanged;
+	FOnAttributesChangedSignature OnCriticalHitResistanceChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnHealthRegenChanged;
+	FOnAttributesChangedSignature OnHealthRegenChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnManaRegenChanged;
+	FOnAttributesChangedSignature OnManaRegenChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnMaxHealthChanged;
+	FOnAttributesChangedSignature OnMaxHealthChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnAttributeChangedSignature OnMaxManaChanged;
+	FOnAttributesChangedSignature OnMaxManaChanged;
 };
