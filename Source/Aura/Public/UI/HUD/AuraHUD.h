@@ -27,10 +27,6 @@ public:
 
 	void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
 
-	template<typename T>
-	T* GetWidgetController(TSubclassOf<UAuraWidgetController> WidgetControllerClass, TObjectPtr<T> WidgetController, const FWidgetControllerParams& WCParams);
-
-
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
 	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams);
 
@@ -54,15 +50,3 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
 };
-
-template<typename T>
-inline T* AAuraHUD::GetWidgetController(TSubclassOf<UAuraWidgetController> WidgetControllerClass, TObjectPtr<T> WidgetController, const FWidgetControllerParams& WCParams)
-{
-	if (WidgetController == nullptr)
-	{
-		WidgetController = NewObject<T>(this, WidgetControllerClass);
-		WidgetController->SetWidgetControllerParams(WCParams);
-		WidgetController->BindCallbacksToDependencies();
-	}
-	return WidgetController;
-}
