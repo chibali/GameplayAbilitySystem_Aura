@@ -36,63 +36,22 @@ void AAuraPlayerController::AutoRun()
 		ControlledPawn->AddMovementInput(Direction);
 
 		const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
-		if (DistanceToDestination <= AutoRunAcceptanceRadius)
-		{
-			bAutoRunning = false;
-		}
+		if (DistanceToDestination <= AutoRunAcceptanceRadius) bAutoRunning = false;
 	}
 }
 
 void AAuraPlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
 	GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 
 	LastActor = CurrentActor;
 	CurrentActor = Cast<IEnemyInterface>(CursorHit.GetActor());
 
-	/**
-	*  Line trace from cursor, there are several scenarios:
-	* 
-	* A. LastActor is null && CurrentActor is null
-	*	- Do nothing
-	* B. LastActor is null && CurrentActor is valid
-	*	- Highlight CurrentActor
-	* C. LastActor is valid && CurrentActor is null
-	*	- UnHighlight LastActor
-	* D. Both actor are valid, but LastActor != CurrentActor
-	*	- UnHighlight LastActor, Highlight CurrentActor
-	* E. Both actor are valid, and are the same actor
-	*	- Do nothing
-	*/
-
-	if (LastActor == nullptr)
+	if (LastActor != CurrentActor)
 	{
-		// Case A
-		if (CurrentActor != nullptr)
-		{
-			// Case B
-			CurrentActor->HighlightActor();
-		}
-	}
-	else // Last Actor is valid
-	{
-		if (CurrentActor == nullptr)
-		{
-			// Case C
-			LastActor->UnHighlightActor();
-		}
-		else // Both actor are valid
-		{
-			// Case E
-			if (LastActor != CurrentActor)
-			{
-				// Case D
-				LastActor->UnHighlightActor();
-				CurrentActor->HighlightActor();
-			}
-		}
+		if (LastActor) LastActor->UnHighlightActor();
+		if (CurrentActor) CurrentActor->HighlightActor();
 	}
 }
 
@@ -109,18 +68,12 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
+		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 		return;
 	}
 	if (bTargeting)
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
+		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 	}
 	else
 	{
@@ -151,28 +104,18 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
+		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 		return;
 	}
 	if (bTargeting)
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagHeld(InputTag);
-		}
+		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 	}
 	else
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
 
-		FHitResult Hit;
-		if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
-		{
-			CachedDestination = Hit.ImpactPoint;
-		}
+		if (CursorHit.bBlockingHit) CachedDestination = CursorHit.ImpactPoint;
 
 		if (APawn* ControlledPawn = GetPawn())
 		{
