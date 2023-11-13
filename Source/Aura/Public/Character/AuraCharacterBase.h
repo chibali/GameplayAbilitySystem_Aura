@@ -22,6 +22,8 @@ public:
 	AAuraCharacterBase();
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+	void UpdateFacingTarget(FVector FacingLocation);
+
 
 protected:
 	virtual void BeginPlay() override;
