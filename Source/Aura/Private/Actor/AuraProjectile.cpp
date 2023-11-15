@@ -13,7 +13,7 @@
 
 AAuraProjectile::AAuraProjectile()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	bReplicates = true;
 
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
@@ -29,12 +29,6 @@ AAuraProjectile::AAuraProjectile()
 	ProjectileMovement->InitialSpeed = 500.f;
 	ProjectileMovement->MaxSpeed = 500.f;
 	ProjectileMovement->ProjectileGravityScale = 0.f;
-}
-
-void AAuraProjectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 void AAuraProjectile::BeginPlay()

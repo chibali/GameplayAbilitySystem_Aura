@@ -20,8 +20,6 @@ class AURA_API AAuraProjectile : public AActor
 public:	
 	AAuraProjectile();
 
-	virtual void Tick(float DeltaTime);
-
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
 
