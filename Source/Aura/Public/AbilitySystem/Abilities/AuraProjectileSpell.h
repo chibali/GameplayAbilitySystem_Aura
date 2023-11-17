@@ -28,4 +28,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	float DamageValue = 30.f;
 };
