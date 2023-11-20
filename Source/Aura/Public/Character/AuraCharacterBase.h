@@ -26,6 +26,10 @@ public:
 	void UpdateFacingTarget(FVector FacingLocation);
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation();
+	virtual void Die() override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleDeath();
 
 protected:
 	virtual void BeginPlay() override;

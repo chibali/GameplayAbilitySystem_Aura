@@ -23,6 +23,7 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 
 public:
 	AAuraEnemy();
+	virtual void Die() override;
 
 	//~ Begin Enemy Interface
 	virtual void HighlightActor() override;
@@ -46,6 +47,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	float BaseWalkSpeed = 250.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	float DeathLifeSpan = 5.f;
 
 protected:
 	virtual void BeginPlay() override;

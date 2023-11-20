@@ -28,6 +28,12 @@ AAuraEnemy::AAuraEnemy()
 	
 }
 
+void AAuraEnemy::Die()
+{
+	SetLifeSpan(DeathLifeSpan);
+	Super::Die();
+}
+
 
 void AAuraEnemy::BeginPlay()
 {
