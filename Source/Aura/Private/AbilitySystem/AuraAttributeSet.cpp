@@ -7,6 +7,8 @@
 #include "GameplayEffectExtension.h"
 #include "AuraGameplayTags.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/AuraPlayerController.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -105,6 +107,7 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 	}
 }
 
+
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -144,9 +147,22 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
 				Properties.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 			}
+			ShowFloatingText(Properties, LocalIncomingDamage);
 		}
 	}
 }
+
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Properties, float Damage) const
+{
+	if (Properties.SourceCharacter != Properties.TargetCharacter)
+	{
+		if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Properties.SourceCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Properties.TargetCharacter);
+		}
+	}
+}
+
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
 {
