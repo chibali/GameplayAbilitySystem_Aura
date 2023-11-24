@@ -8,6 +8,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
+#include "AuraAbilityTypes.h"
 
 struct AuraDamageStatics
 {
@@ -70,6 +71,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	TargetBlockChance = FMath::Clamp(TargetBlockChance, 0.f, 100.f);
 
 	const bool bIsDamageBlocked = FMath::RandRange(0.f, 100.f) < TargetBlockChance;
+	FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(ContextHandle, bIsDamageBlocked);
+
 	Damage = bIsDamageBlocked ? Damage / 2.f : Damage;
 
 	float TargetArmor = 0.f;
@@ -116,6 +120,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	// Damage applied if a CriticalHit is successful
 
 	const bool bIsCriticalHit = FMath::RandRange(0.f, 100.f) < EffectiveCriticalHitChance;
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(ContextHandle, bIsCriticalHit);
 	Damage = bIsCriticalHit ? Damage * 2.f + SourceCriticalHitDamage : Damage;
 
 	// Final Damage Output
