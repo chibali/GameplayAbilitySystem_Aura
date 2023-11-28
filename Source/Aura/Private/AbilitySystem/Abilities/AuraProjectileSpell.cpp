@@ -47,10 +47,13 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectleTargetLocatio
 		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), EffectContextHandle);
 
 		const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
-		const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, FString::Printf(TEXT("Firebolt Damage %f"), ScaledDamage));
-		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage);
 
+		for (auto& Pair : DamageTypes)
+		{
+			const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
+			UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Pair.Key, ScaledDamage);
+		}
+		
 		Projectile->DamageEffectSpecHandle = SpecHandle;
 		Projectile->FinishSpawning(SpawnTransform);
 	}
