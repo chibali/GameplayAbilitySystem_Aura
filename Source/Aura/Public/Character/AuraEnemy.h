@@ -12,6 +12,8 @@
 class UWidgetComponent;
 class UOverlayWidgetController;
 struct FWidgetControllerParams;
+class UBehaviorTree;
+class AAuraAIController;
 
 /**
  * 
@@ -23,6 +25,8 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 
 public:
 	AAuraEnemy();
+	virtual void PossessedBy(AController* NewController) override;
+
 	virtual void Die() override;
 
 	//~ Begin Enemy Interface
@@ -67,5 +71,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBarWidgetComponent;
 
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
 
+	UPROPERTY()
+	TObjectPtr<AAuraAIController> AuraAIController;
 };
