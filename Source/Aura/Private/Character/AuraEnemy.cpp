@@ -28,6 +28,12 @@ AAuraEnemy::AAuraEnemy()
 	HealthBarWidgetComponent = CreateDefaultSubobject<UWidgetComponent>("WidgetComponent");
 	HealthBarWidgetComponent->SetupAttachment(GetRootComponent());
 
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
+
 	
 }
 
