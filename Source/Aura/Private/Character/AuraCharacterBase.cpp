@@ -78,11 +78,12 @@ FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGamepl
 	// TO DO Return correct socket based on montage tag
 	for (TTuple<FGameplayTag, FName> MontageToSocket : MontageTagToSocket)
 	{
-		if (MontageTag.MatchesTagExact(MontageToSocket.Key) && IsValid(Weapon))
+		bool bHasWeapon = Weapon->SkeletalMesh != nullptr;
+		if (MontageTag.MatchesTagExact(MontageToSocket.Key) && bHasWeapon)
 		{
 			return Weapon->GetSocketLocation(MontageToSocket.Value);
 		}
-		else if (MontageTag.MatchesTagExact(MontageToSocket.Key))
+		if (MontageTag.MatchesTagExact(MontageToSocket.Key))
 		{
 			return GetMesh()->GetSocketLocation(MontageToSocket.Value);
 		}
