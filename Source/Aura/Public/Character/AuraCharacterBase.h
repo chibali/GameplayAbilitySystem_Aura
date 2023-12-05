@@ -27,7 +27,7 @@ public:
 
 	// Combat Interface //
 	virtual UAnimMontage* GetHitReactMontage_Implementation();
-	virtual FVector GetCombatSocketLocation_Implementation() override;
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
 	virtual void Die() override;
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
@@ -49,6 +49,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TMap<FGameplayTag, FName> MontageTagToSocket;
 
 	bool bDead = false;
 

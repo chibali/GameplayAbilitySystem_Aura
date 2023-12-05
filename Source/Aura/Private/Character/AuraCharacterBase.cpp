@@ -73,10 +73,21 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 {
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation()
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	// TO DO Return correct socket based on montage tag
+	for (TTuple<FGameplayTag, FName> MontageToSocket : MontageTagToSocket)
+	{
+		if (MontageTag.MatchesTagExact(MontageToSocket.Key) && IsValid(Weapon))
+		{
+			return Weapon->GetSocketLocation(MontageToSocket.Value);
+		}
+		else if (MontageTag.MatchesTagExact(MontageToSocket.Key))
+		{
+			return GetMesh()->GetSocketLocation(MontageToSocket.Value);
+		}
+	}
+	return FVector();
 }
 
 void AAuraCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
