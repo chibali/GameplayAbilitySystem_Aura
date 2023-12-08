@@ -52,6 +52,7 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 void AAuraEnemy::Die()
 {
 	SetLifeSpan(DeathLifeSpan);
+	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
 	Super::Die();
 }
 
