@@ -7,7 +7,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Aura/Aura.h"
-
+#include "NiagaraSystem.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
@@ -48,6 +48,11 @@ AActor* AAuraCharacterBase::GetAvatar_Implementation()
 TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontages_Implementation()
 {
 	return AttackMontages;
+}
+
+UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation()
+{
+	return BloodEffect;
 }
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 {
