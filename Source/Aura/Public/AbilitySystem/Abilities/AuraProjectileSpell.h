@@ -8,6 +8,7 @@
 
 class AAuraProjectile;
 class UGameplayEffect;
+struct FGameplayTag;
 /**
  * 
  */
@@ -19,7 +20,7 @@ class AURA_API UAuraProjectileSpell : public UAuraDamageGameplayAbility
 protected:
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnProjectile(const FVector& ProjectleTargetLocation);
+	void SpawnProjectile(const FVector& ProjectleTargetLocation, const FGameplayTag& CombatSocketTag);
 
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
