@@ -19,10 +19,14 @@ struct FAuraAbilityInfo
 	FGameplayTag InputTag = FGameplayTag();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<const UTexture2D> Icon = nullptr;
+	FGameplayTag CooldownTag = FGameplayTag();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<const UMaterialInterface> BackgroundMaterial = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<const UTexture2D> Icon = nullptr;
+
 };
 
 /**
