@@ -3,23 +3,25 @@
 
 #include "AbilitySystem/Data/LevelUpInfo.h"
 
-FAuraLevelUpInfo ULevelUpInfo::FindLevelForXP(int32 CurrentXP, int32 CumulativeXP) const
+int32 ULevelUpInfo::FindLevelForXP(int32 CurrentXP) const
 {
-	CumulativeXP += CurrentXP;
-	int32 ClosestLevelUpRequirement;
-
-	for (const FAuraLevelUpInfo& LevelInfo : LevelUpInformation)
+	int32 Level = 1;
+	bool bSearching = true;
+	while(bSearching)
 	{
-		int32 LevelUpRequirementToValue = LevelInfo.LevelUpRequirement;
+		// LevelUpInformation[1] = Level 1 Information
+		// LevelUpInformation[2] = Level 2 Information
 
-		if (LevelUpRequirementToValue <= CumulativeXP)
+		if (LevelUpInformation.Num() - 1<= Level) return Level;
+		
+		if (CurrentXP >= LevelUpInformation[Level].LevelUpRequirement)
 		{
-			ClosestLevelUpRequirement = LevelUpRequirementToValue;
+			++Level;
 		}
-		if (LevelUpRequirementToValue > CumulativeXP)
+		else
 		{
-			return LevelInfo;
+			bSearching = false;
 		}
 	}
-	return FAuraLevelUpInfo();
+	return Level;
 }
