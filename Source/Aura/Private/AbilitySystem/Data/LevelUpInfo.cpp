@@ -12,7 +12,7 @@ int32 ULevelUpInfo::FindLevelForXP(int32 CurrentXP) const
 		// LevelUpInformation[1] = Level 1 Information
 		// LevelUpInformation[2] = Level 2 Information
 
-		if (LevelUpInformation.Num() - 1<= Level) return Level;
+		if (LevelUpInformation.Num() - 1 <= Level) return Level;
 		
 		if (CurrentXP >= LevelUpInformation[Level].LevelUpRequirement)
 		{

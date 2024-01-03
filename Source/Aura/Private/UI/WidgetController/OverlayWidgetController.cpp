@@ -5,6 +5,9 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
+#include "AbilitySystem/Data/LevelUpInfo.h"
+#include "Player/AuraPlayerState.h"
+
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -14,12 +17,14 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnMaxHealthChanged.Broadcast(AuraAttributeSet->GetMaxHealth());
 	OnManaChanged.Broadcast(AuraAttributeSet->GetMana());
 	OnMaxManaChanged.Broadcast(AuraAttributeSet->GetMaxMana());
+	OnXPPercentChangedDelegate.Broadcast(0.f);
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
-	
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		AuraAttributeSet->GetHealthAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data) {OnHealthChanged.Broadcast(Data.NewValue); });
@@ -32,6 +37,9 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		AuraAttributeSet->GetMaxManaAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data) {OnMaxManaChanged.Broadcast(Data.NewValue); });
+	
+	AuraPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
+	
 
 	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
 	{
@@ -61,6 +69,29 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		);
 	}
 	
+}
+
+void UOverlayWidgetController::OnXPChanged(int32 XP) const
+{
+	AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState);
+	ULevelUpInfo* LevelUpInfo = AuraPlayerState->LevelUpInformation;
+	checkf(LevelUpInfo, TEXT("Unable to find LevelUpInfo. Please fill out AuraPlayerState Blueprint"));
+
+	const int32 CurrentLevel = LevelUpInfo->FindLevelForXP(XP);
+	const int32 MaxLevel = LevelUpInfo->LevelUpInformation.Num();
+
+	if (CurrentLevel <= MaxLevel && CurrentLevel > 0)
+	{
+		const int32 LevelUpRequirement = LevelUpInfo->LevelUpInformation[CurrentLevel].LevelUpRequirement;
+		const int32 PreviousLevelUpRequirement = LevelUpInfo->LevelUpInformation[CurrentLevel - 1].LevelUpRequirement;
+		const int32 DeltaLevelUpRequirement = LevelUpRequirement - PreviousLevelUpRequirement;
+
+		const int32 XPForThisLevel = XP - PreviousLevelUpRequirement;
+
+		const float XPPercent = (static_cast<float>(XPForThisLevel) / static_cast<float>(DeltaLevelUpRequirement));
+
+		OnXPPercentChangedDelegate.Broadcast(XPPercent);
+	}
 }
 
 void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraAbilitySystemComponent)

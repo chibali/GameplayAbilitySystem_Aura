@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "AttributeSet.h"
+#include "ScalableFloat.h"
 #include "CharacterClassInfo.generated.h"
 
 class UGameplayEffect;
@@ -27,6 +29,9 @@ struct FCharacterClassDefaultInfo
 
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
 	TArray<TSubclassOf<UGameplayAbility>> ClassAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
+	FScalableFloat ClassXP = FScalableFloat();
 };
 /**
  * 
@@ -37,7 +42,7 @@ class AURA_API UCharacterClassInfo : public UDataAsset
 	GENERATED_BODY()
 public:
 
-	UPROPERTY(EditDefaultsOnly, Category = "Claass Defaults")
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")

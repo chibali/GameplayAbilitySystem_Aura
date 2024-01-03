@@ -78,4 +78,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ChangeMinionCount(int32 AmountToIncrement);
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	ECharacterClass GetCharacterClass();
+
 };
