@@ -12,6 +12,9 @@
 #include "Camera/CameraComponent.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
 #include "UI/HUD/AuraHUD.h"
+#include "Blueprint/UserWidget.h"
+#include "Sound/SoundBase.h"
+#include "Kismet/GameplayStatics.h"
 
 AAuraCharacter::AAuraCharacter()
 {

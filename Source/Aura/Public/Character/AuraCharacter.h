@@ -10,6 +10,7 @@
 class UNiagaraComponent;
 class UCameraComponent;
 class USpringArmComponent;
+class USoundBase;
 
 /**
  * 
