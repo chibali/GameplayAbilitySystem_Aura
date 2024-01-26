@@ -11,14 +11,18 @@
 
 FString UAuraProjectileSpell::GetDescription(int32 Level)
 {
+	int32 FireBoltNumber;
+	Level < 5 ? FireBoltNumber = Level : FireBoltNumber = 4;
 	const int32 ScaledDamage = DamageTypes[FAuraGameplayTags::Get().Damage_Fire].GetValueAtLevel(Level);
-	return FString::Printf(TEXT("<Title>Fire Bolt</>\n\n<Default>Launches </><Level>%d </><Default>bolts of fire, exploding on impact and dealing: </><Damage>%d </><Default>fire damage with a chance to burn</>"), FMath::Min(Level, NumProjectiles), ScaledDamage);
+	return FString::Printf(TEXT("<Title>Fire Bolt</>\n\n<Default>Launches </><Level>%d </><Default>bolts of fire, exploding on impact and dealing: </><Damage>%d </><Default>fire damage with a chance to burn</>"), FireBoltNumber, ScaledDamage);
 }
 
 FString UAuraProjectileSpell::GetNextLevelDescription(int32 Level)
 {
+	int32 FireBoltNumber;
+	Level < 5 ? FireBoltNumber = Level : FireBoltNumber = 4;
 	const int32 ScaledDamage = DamageTypes[FAuraGameplayTags::Get().Damage_Fire].GetValueAtLevel(Level);
-	return FString::Printf(TEXT("<Title>Next Level</>\n\n<Default>Launches </><Level>%d </><Default>bolts of fire, exploding on impact and dealing: </><Damage>%d </><Default>fire damage with a chance to burn</>"), FMath::Min(Level, NumProjectiles), ScaledDamage);
+	return FString::Printf(TEXT("<Title>Fire Bolt</>\n\n<Default>Launches </><Level>%d </><Default>bolts of fire, exploding on impact and dealing: </><Damage>%d </><Default>fire damage with a chance to burn</>"), FireBoltNumber, ScaledDamage);
 }
 
 void UAuraProjectileSpell::SpawnProjectile(const FVector& ProjectleTargetLocation, const FGameplayTag& CombatSocketTag, bool bOverridePitch, float PitchOverride)
