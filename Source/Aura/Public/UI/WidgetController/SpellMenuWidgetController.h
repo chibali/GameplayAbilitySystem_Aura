@@ -34,10 +34,11 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Buttons")
 	FSpellGlobeSelectedDelegate OnSpellGlobeSelected;
 
-
 	UFUNCTION(BlueprintCallable)
 	void SpendButtonPointButtonPressed();
 
+	UFUNCTION(BlueprintCallable)
+	void GlobeDeselect();
 private:
 
 	static void ShouldEnableButtons(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointsButton, bool& bShouldEnableEquipButton);
