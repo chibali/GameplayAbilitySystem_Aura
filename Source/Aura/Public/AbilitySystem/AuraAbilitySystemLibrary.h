@@ -13,6 +13,7 @@ class UAbilitySystemComponent;
 class USpellMenuWidgetController;
 struct FWidgetControllerParams;
 class UAbilityInfo;
+struct FDamageEffectParams;
 /**
  * 
  */
@@ -66,4 +67,7 @@ public:
 
 	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
 	static bool IsNotAlly(AActor* FirstActor, AActor* SecondActor);
+
+	UFUNCTION(BlueprintCallable)
+	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& EffectParams);
 };
