@@ -239,6 +239,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 
 	FGameplayEffectContextHandle DamageContextHandle = EffectParams.SourceAbilitySystemComponent->MakeEffectContext();
 	DamageContextHandle.AddSourceObject(SourceAvatarActor);
+	SetDeathImpulse(DamageContextHandle, EffectParams.DeathImpulse);
 
 	FGameplayEffectSpecHandle DamageSpecHandle = EffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(EffectParams.DamageGameplayEffectClass, EffectParams.AbilityLevel, DamageContextHandle);
 

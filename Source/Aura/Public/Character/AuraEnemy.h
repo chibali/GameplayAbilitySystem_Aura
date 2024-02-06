@@ -26,7 +26,7 @@ public:
 	AAuraEnemy();
 	virtual void PossessedBy(AController* NewController) override;
 
-	virtual void Die() override;
+	virtual void Die(const FVector& InDeathImpulse) override;
 
 	//~ Begin Enemy Interface
 	virtual void HighlightActor() override;

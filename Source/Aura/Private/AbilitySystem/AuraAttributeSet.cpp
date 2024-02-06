@@ -164,7 +164,9 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetAvatarActor);
 			if (CombatInterface)
 			{
-				CombatInterface->Die();
+				FVector DeathImpulse = UAuraAbilitySystemLibrary::GetDeathImpulse(Properties.EffectContextHandle);
+				CombatInterface->Die(UAuraAbilitySystemLibrary::GetDeathImpulse(Properties.EffectContextHandle));
+				
 			}
 			SendXPEvent(Properties);
 		}
