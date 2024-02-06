@@ -167,6 +167,8 @@ void AAuraCharacter::InitAbilityActorInfo()
 		AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 		Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 		AttributeSet = AuraPlayerState->GetAttributeSet();
+		OnASCRegistered.Broadcast(AbilitySystemComponent);
+
 		if (AAuraPlayerController* AuraPlayerController = GetController<AAuraPlayerController>())
 		{
 			if (AAuraHUD* AuraHUD = AuraPlayerController->GetHUD<AAuraHUD>())
