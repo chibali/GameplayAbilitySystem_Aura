@@ -96,6 +96,16 @@ FOnDeath& AAuraCharacterBase::GetOnDeathDelegate()
 	return OnDeath;
 }
 
+void AAuraCharacterBase::ApplyKnockback(const FVector& Knockback)
+{
+	MulticastHandleKnockback(Knockback);
+}
+
+void AAuraCharacterBase::MulticastHandleKnockback_Implementation(const FVector& Knockback)
+{
+	LaunchCharacter(Knockback, false, false);
+}
+
 void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& InDeathImpulse)
 {
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());

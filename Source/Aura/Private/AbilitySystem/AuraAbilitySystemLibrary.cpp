@@ -209,6 +209,24 @@ FVector UAuraAbilitySystemLibrary::GetDeathImpulse(const FGameplayEffectContextH
 	return FVector::ZeroVector;
 }
 
+bool UAuraAbilitySystemLibrary::IsKnockback(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return AuraEffectContext->IsKnockback();
+	}
+	return false;
+}
+
+FVector UAuraAbilitySystemLibrary::GetKnockback(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return AuraEffectContext->GetKnockback();
+	}
+	return FVector::ZeroVector;
+}
+
 void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin)
 {
 	FCollisionQueryParams CollisionParams;
@@ -239,6 +257,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 
 	FGameplayEffectContextHandle DamageContextHandle = EffectParams.SourceAbilitySystemComponent->MakeEffectContext();
 	DamageContextHandle.AddSourceObject(SourceAvatarActor);
+	SetKnockback(DamageContextHandle, EffectParams.Knockback);
 	SetDeathImpulse(DamageContextHandle, EffectParams.DeathImpulse);
 
 	FGameplayEffectSpecHandle DamageSpecHandle = EffectParams.SourceAbilitySystemComponent->MakeOutgoingSpec(EffectParams.DamageGameplayEffectClass, EffectParams.AbilityLevel, DamageContextHandle);
@@ -248,6 +267,7 @@ FGameplayEffectContextHandle UAuraAbilitySystemLibrary::ApplyDamageEffect(const 
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageSpecHandle, GameplayTags.Debuff_Damage, EffectParams.DebuffDamage);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageSpecHandle, GameplayTags.Debuff_Duration, EffectParams.DebuffDuration);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageSpecHandle, GameplayTags.Debuff_Frequency, EffectParams.DebuffFrequency);
+	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(DamageSpecHandle, GameplayTags.Knockback_Chance, EffectParams.KnockbackChance);
 
 	EffectParams.TargetAbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*DamageSpecHandle.Data, EffectParams.TargetAbilitySystemComponent);
 
@@ -316,5 +336,21 @@ void UAuraAbilitySystemLibrary::SetDeathImpulse(UPARAM(ref)FGameplayEffectContex
 	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
 		AuraEffectContext->SetDeathImpulse(InDeathImpulse);
+	}
+}
+
+void UAuraAbilitySystemLibrary::SetIsKnockback(UPARAM(ref)FGameplayEffectContextHandle EffectContextHandle, bool bInIsKnockback)
+{
+	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		AuraEffectContext->SetIsKnockback(bInIsKnockback);
+	}
+}
+
+void UAuraAbilitySystemLibrary::SetKnockback(UPARAM(ref)FGameplayEffectContextHandle EffectContextHandle, const FVector& InKnockback)
+{
+	if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		AuraEffectContext->SetKnockback(InKnockback);
 	}
 }

@@ -97,6 +97,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluateParams.SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
 	EvaluateParams.TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
 
+	// Knockback
+	
+	DetermineKnockback(Spec);
+
 	// Debuff
 	DetermineDebuff(Spec, ExecutionParams, EvaluateParams, TagsToCaptureDefs);
 
@@ -183,6 +187,23 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	// Final Damage Output
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+}
+
+void UExecCalc_Damage::DetermineKnockback(const FGameplayEffectSpec& Spec) const
+{
+	FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+
+	float KnockbackChance = 0.f;
+	// Determine if there was a successful knockback
+	const float DebuffChance = Spec.GetSetByCallerMagnitude(GameplayTags.Knockback_Chance, false, -1.f);
+	const bool bIsKnockback = FMath::RandRange(1, 100) < DebuffChance;
+
+	if (bIsKnockback)
+	{
+		FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
+
+		UAuraAbilitySystemLibrary::SetIsKnockback(ContextHandle, bIsKnockback);
+	}
 }
 
 void UExecCalc_Damage::DetermineDebuff(const FGameplayEffectSpec& Spec, const FGameplayEffectCustomExecutionParameters& ExecutionParams, FAggregatorEvaluateParameters& EvaluateParams, const TMap<FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& InTagsToCaptureDefs) const

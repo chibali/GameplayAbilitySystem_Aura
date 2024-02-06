@@ -42,6 +42,7 @@ public:
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate() override;
 	virtual FOnDeath& GetOnDeathDelegate() override;
+	virtual void ApplyKnockback(const FVector& Knockback) override;
 	// End of Combat Interface //
 
 	FOnASCRegistered OnASCRegistered;
@@ -49,6 +50,9 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& InDeathImpulse);
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleKnockback(const FVector& Knockback);
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;

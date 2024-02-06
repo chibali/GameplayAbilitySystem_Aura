@@ -50,6 +50,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	float DeathImpulseMagnitude = 60.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float KnockbackMagnitude = 60.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Damage")
+	float KnockbackChance = 20.f;
 
 	UFUNCTION(BlueprintPure, BlueprintCallable)
 	FTaggedMontage GetRandomTaggedMontageFromArray(const TArray<FTaggedMontage>& TaggedMontages) const;

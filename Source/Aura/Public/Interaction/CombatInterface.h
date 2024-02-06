@@ -61,6 +61,8 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
 
+	virtual void ApplyKnockback(const FVector& Knockback) = 0;
+
 	virtual void Die(const FVector& InDeathImpulse) = 0;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)

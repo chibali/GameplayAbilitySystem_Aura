@@ -62,6 +62,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Debuff_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Arcane"), FString("Arcane Debuff for Arcane Damage"));
 	GameplayTags.Debuff_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Physical"), FString("Physical Debuff for Physical Damage"));
 
+	GameplayTags.Debuff_Knockback = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Knockback"), FString("Knockback debuff for launching enemies back"));
+	GameplayTags.Knockback_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Knockback.Chance"), FString("Knockback chance"));
+
 	GameplayTags.Debuff_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Chance"), FString("Chance to apply debuff"));
 	GameplayTags.Debuff_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Damage"), FString("Debuff damage"));
 	GameplayTags.Debuff_Frequency = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Debuff.Frequency"), FString("Frequency the debuff is applied"));

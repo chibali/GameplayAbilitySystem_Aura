@@ -179,6 +179,16 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 		const bool bBlocked = UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle);
 		const bool bCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle);
 		ShowFloatingText(Properties, LocalIncomingDamage, bBlocked, bCriticalHit);
+
+		if (UAuraAbilitySystemLibrary::IsKnockback(Properties.EffectContextHandle))
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetAvatarActor))
+			{
+				FVector Knockback = UAuraAbilitySystemLibrary::GetKnockback(Properties.EffectContextHandle);
+				CombatInterface->ApplyKnockback(UAuraAbilitySystemLibrary::GetKnockback(Properties.EffectContextHandle));
+			}
+		}
+
 		if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Properties.EffectContextHandle))
 		{
 			Debuff(Properties);

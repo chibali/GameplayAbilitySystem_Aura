@@ -18,6 +18,8 @@ public:
 
 	virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
 
+	void DetermineKnockback(const FGameplayEffectSpec& Spec) const;
+
 	void DetermineDebuff(
 		const FGameplayEffectSpec& Spec, 
 		const FGameplayEffectCustomExecutionParameters& ExecutionParams, 
