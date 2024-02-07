@@ -59,7 +59,7 @@ void AAuraProjectile::OnHit()
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
-	if (SourceAvatarActor == OtherActor) return;
+	if (!IsValid(SourceAvatarActor) && SourceAvatarActor == OtherActor) return;
 	if (!UAuraAbilitySystemLibrary::IsNotAlly(SourceAvatarActor, OtherActor)) return;
 	if (!bHit) OnHit();
 
@@ -69,7 +69,12 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlapComponent, AAc
 		{
 			const FVector DeathImpulse = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
 			DamageEffectParams.DeathImpulse = DeathImpulse;
-			const FVector Knockback = GetActorForwardVector() * DamageEffectParams.KnockbackMagnitude;
+
+			FRotator Rotation = GetActorRotation();
+			Rotation.Pitch = 45.f;
+
+			const FVector KnockbackDirection = Rotation.Vector();
+			const FVector Knockback = KnockbackDirection * DamageEffectParams.KnockbackMagnitude;
 			DamageEffectParams.Knockback = Knockback;
 			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
 			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);

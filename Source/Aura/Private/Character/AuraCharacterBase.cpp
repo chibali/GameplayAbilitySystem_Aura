@@ -103,7 +103,7 @@ void AAuraCharacterBase::ApplyKnockback(const FVector& Knockback)
 
 void AAuraCharacterBase::MulticastHandleKnockback_Implementation(const FVector& Knockback)
 {
-	LaunchCharacter(Knockback, false, false);
+	LaunchCharacter(Knockback, true, true);
 }
 
 void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& InDeathImpulse)
