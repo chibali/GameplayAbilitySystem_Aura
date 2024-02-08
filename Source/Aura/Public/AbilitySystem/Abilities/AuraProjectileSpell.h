@@ -21,7 +21,7 @@ class AURA_API UAuraProjectileSpell : public UAuraDamageGameplayAbility
 protected:
 
 	UFUNCTION(BlueprintCallable)
-	void SpawnProjectile(const FVector& ProjectleTargetLocation, const FGameplayTag& CombatSocketTag, bool bOverridePitch = false, float PitchOverride = 0.f);
+	void SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& CombatSocketTag, bool bOverridePitch = false, float PitchOverride = 0.f);
 
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 

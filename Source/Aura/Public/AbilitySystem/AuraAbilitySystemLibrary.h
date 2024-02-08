@@ -119,4 +119,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& EffectParams);
+
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
+	static TArray<FRotator> EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators);
+
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
+	static TArray<FVector> EvenlyRotatedVectors(const FVector& Forward, const FVector& Axis, float Spread, int32 NumVectors);
 };
