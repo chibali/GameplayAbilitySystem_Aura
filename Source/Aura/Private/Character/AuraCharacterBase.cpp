@@ -101,6 +101,11 @@ void AAuraCharacterBase::ApplyKnockback(const FVector& Knockback)
 	MulticastHandleKnockback(Knockback);
 }
 
+USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
+{
+	return Weapon;
+}
+
 void AAuraCharacterBase::MulticastHandleKnockback_Implementation(const FVector& Knockback)
 {
 	LaunchCharacter(Knockback, true, true);

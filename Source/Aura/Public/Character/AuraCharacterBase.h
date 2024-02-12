@@ -43,6 +43,7 @@ public:
 	virtual FOnASCRegistered& GetOnASCRegisteredDelegate() override;
 	virtual FOnDeath& GetOnDeathDelegate() override;
 	virtual void ApplyKnockback(const FVector& Knockback) override;
+	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	// End of Combat Interface //
 
 	FOnASCRegistered OnASCRegistered;
