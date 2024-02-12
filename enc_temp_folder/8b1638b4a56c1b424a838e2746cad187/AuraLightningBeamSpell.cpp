@@ -46,7 +46,7 @@ void UAuraLightningBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation
 				TraceTypeQuery1,
 				false,
 				ActorsToIgnore,
-				EDrawDebugTrace::None,
+				EDrawDebugTrace::ForDuration,
 				HitResult,
 				true
 			);
