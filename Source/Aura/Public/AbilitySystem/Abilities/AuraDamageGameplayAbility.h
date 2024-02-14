@@ -10,7 +10,7 @@
 
 
 /**
- * 
+ *   
  */
 UCLASS()
 class AURA_API UAuraDamageGameplayAbility : public UAuraGameplayAbility
