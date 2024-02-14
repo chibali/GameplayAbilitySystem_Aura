@@ -251,7 +251,6 @@ void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTargets, const TArray
 	}
 	else
 	{
-		/*TArray<double> Distances;*/
 		TMap<double, AActor*> ClosestActorsDistances;
 		for (AActor* Actor : Actors)
 		{
@@ -261,13 +260,6 @@ void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTargets, const TArray
 		ClosestActorsDistances.KeySort([](double A, double B) {
 			return A < B;
 			});
-	/*	while (OutClosestTargets.Num() < MaxTargets)
-		{
-			for (int32 Index = 0; Index < MaxTargets; Index ++)
-			{
-				OutClosestTargets.AddUnique(ClosestActorsDistances.Value);
-			}
-		}*/
 		for (auto& ActorDistance : ClosestActorsDistances)
 		{
 			if (OutClosestTargets.Num() == MaxTargets) break;
@@ -275,14 +267,6 @@ void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTargets, const TArray
 		}
 	}
 }
-/*for (AActor* Actor : Actors)
-			{
-				const double Distance = FVector::Dist(Actor->GetActorLocation(), Origin);
-				if (Distance < Distances[MaxTargets - 1])
-				{
-					OutClosestTargets.AddUnique(Actor);
-				}
-			}*/
 bool UAuraAbilitySystemLibrary::IsNotAlly(AActor* FirstActor, AActor* SecondActor)
 {
 	const bool bBothArePlayer = FirstActor->ActorHasTag(FName("Player")) && SecondActor->ActorHasTag(FName("Player"));
