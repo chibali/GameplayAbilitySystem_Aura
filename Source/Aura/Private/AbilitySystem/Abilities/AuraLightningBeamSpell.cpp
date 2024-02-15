@@ -51,7 +51,7 @@ void UAuraLightningBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation
 				HitResult,
 				true
 			);
-			if (HitResult.bBlockingHit)
+			if (HitResult.bBlockingHit /*&& UAuraAbilitySystemLibrary::IsNotAlly(GetAvatarActorFromActorInfo(), HitResult.GetActor())*/)
 			{
 				MouseHitLocation = HitResult.ImpactPoint;
 				MouseHitActor = HitResult.GetActor();

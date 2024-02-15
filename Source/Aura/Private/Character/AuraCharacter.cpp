@@ -15,6 +15,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Sound/SoundBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "AuraGameplayTags.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -58,6 +59,21 @@ void AAuraCharacter::OnRep_PlayerState()
 
 	// Initiliaze ability actor info for the client
 	InitAbilityActorInfo();
+}
+
+void AAuraCharacter::OnRep_Stunned()
+{
+	if (UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		FGameplayTagContainer BlockedTags;
+		BlockedTags.AddTag(FAuraGameplayTags::Get().Player_Block_CursorTrace);
+		BlockedTags.AddTag(FAuraGameplayTags::Get().Player_Block_InputHeld);
+		BlockedTags.AddTag(FAuraGameplayTags::Get().Player_Block_InputPressed);
+		BlockedTags.AddTag(FAuraGameplayTags::Get().Player_Block_InputReleased);
+		
+		if (bIsStunned) AuraASC->AddLooseGameplayTags(BlockedTags);
+		else AuraASC->RemoveLooseGameplayTags(BlockedTags);
+	}
 }
 
 void AAuraCharacter::AddToXP_Implementation(int InXP)
@@ -168,6 +184,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 		Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 		AttributeSet = AuraPlayerState->GetAttributeSet();
 		OnASCRegistered.Broadcast(AbilitySystemComponent);
+		AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraCharacter::StunTagChanged);
 
 		if (AAuraPlayerController* AuraPlayerController = GetController<AAuraPlayerController>())
 		{

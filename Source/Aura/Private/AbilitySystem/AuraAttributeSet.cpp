@@ -244,8 +244,6 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Properties)
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
 	Effect->Period = DebuffFrequency;
 
-	//Effect->InheritableOwnedTagsContainer.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
-
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;
 
@@ -257,9 +255,19 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Properties)
 	ModifierInfo.ModifierOp = EGameplayModOp::Additive;
 	ModifierInfo.Attribute = UAuraAttributeSet::GetIncomingDamageAttribute();
 
+	const FGameplayTag DebuffTag = GameplayTags.DamageTypesToDebuffs[DamageType];
+	
 	if (FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f))
 	{
-		MutableSpec->DynamicGrantedTags.AddTag(GameplayTags.DamageTypesToDebuffs[DamageType]);
+		MutableSpec->DynamicGrantedTags.AddTag(DebuffTag);
+		if (DebuffTag.MatchesTagExact(GameplayTags.Debuff_Stun))
+		{
+			MutableSpec->DynamicGrantedTags.AddTag(GameplayTags.Player_Block_CursorTrace);
+			MutableSpec->DynamicGrantedTags.AddTag(GameplayTags.Player_Block_InputHeld);
+			MutableSpec->DynamicGrantedTags.AddTag(GameplayTags.Player_Block_InputPressed);
+			MutableSpec->DynamicGrantedTags.AddTag(GameplayTags.Player_Block_InputReleased);
+		}
+
 		FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(MutableSpec->GetContext().Get());
 		TSharedPtr<FGameplayTag> DebuffDamageType = MakeShareable(new FGameplayTag(DamageType));
 		AuraContext->SetDamageType(DebuffDamageType);
