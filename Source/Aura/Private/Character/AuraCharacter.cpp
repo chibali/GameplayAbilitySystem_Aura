@@ -16,6 +16,7 @@
 #include "Sound/SoundBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "AuraGameplayTags.h"
+#include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -71,8 +72,29 @@ void AAuraCharacter::OnRep_Stunned()
 		BlockedTags.AddTag(FAuraGameplayTags::Get().Player_Block_InputPressed);
 		BlockedTags.AddTag(FAuraGameplayTags::Get().Player_Block_InputReleased);
 		
-		if (bIsStunned) AuraASC->AddLooseGameplayTags(BlockedTags);
-		else AuraASC->RemoveLooseGameplayTags(BlockedTags);
+		if (bIsStunned) 
+		{
+			AuraASC->AddLooseGameplayTags(BlockedTags);
+			StunDebuffComponent->Activate();
+		}
+	
+		else 
+		{
+			AuraASC->RemoveLooseGameplayTags(BlockedTags);
+			StunDebuffComponent->Deactivate();
+		}
+	}
+}
+
+void AAuraCharacter::OnRep_Burned()
+{
+	if (bIsBurned)
+	{
+		BurnDebuffComponent->Activate();
+	}
+	else
+	{
+		BurnDebuffComponent->Deactivate()
 	}
 }
 
