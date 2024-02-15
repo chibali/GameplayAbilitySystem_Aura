@@ -172,9 +172,12 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 		}
 		else
 		{
-			FGameplayTagContainer TagContainer;
-			TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
-			Properties.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+			if (Properties.TargetCharacter->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsBeingShocked(Properties.TargetCharacter))
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
+				Properties.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+			}
 		}
 		const bool bBlocked = UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle);
 		const bool bCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle);

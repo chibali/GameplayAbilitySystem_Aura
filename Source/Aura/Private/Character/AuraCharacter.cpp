@@ -94,7 +94,7 @@ void AAuraCharacter::OnRep_Burned()
 	}
 	else
 	{
-		BurnDebuffComponent->Deactivate()
+		BurnDebuffComponent->Deactivate();
 	}
 }
 
