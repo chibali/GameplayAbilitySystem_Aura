@@ -176,7 +176,7 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 			{
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
-				Properties.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
+ 				Properties.TargetAbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 			}
 		}
 		const bool bBlocked = UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle);
