@@ -6,6 +6,137 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
+FString UAuraLightningBeamSpell::GetDescription(int32 Level)
+{
+	const float ManaCost = FMath::Abs(GetManaCost(Level));
+	const float Cooldown = GetCooldown(Level);
+
+	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
+
+	if (Level == 1)
+	{
+		return FString::Printf(TEXT(
+			//Title
+			"<Title>Lightning Beam</>\n\n"
+
+			//Level
+			"<Small>Level: </><Level>%d</>\n"
+			//ManaCost
+			"<Small>ManaCost: </><ManaCost>%.1f</>\n"
+			//Cooldown
+			"<Small>Cooldown: </><Cooldown>%.1f</>\n\n"
+
+			//Description
+			"<Default>Launches </><Level> </><Default>a powerful lightning beam, "
+			"dealing </><Damage>%d </>"
+			"<Default>lightning damage per application, with a chance to stun the target when the ability ends.</>"),
+			Level,
+			ManaCost,
+			Cooldown,
+			ScaledDamage);
+	}
+	else if (Level == 2)
+	{
+		return FString::Printf(TEXT(
+			//Title
+			"<Title>Lightning Beam</>\n\n"
+
+			//Level
+			"<Small>Level: </><Level>%d</>\n"
+			//ManaCost
+			"<Small>ManaCost: </><ManaCost>%.1f</>\n"
+			//Cooldown
+			"<Small>Cooldown: </><Cooldown>%.1f</>\n\n"
+
+			//Description
+			"<Default>Launches a powerful lightning beam, that spreads </><Time>to the closest enemy, </>"
+			"<Default>dealing </><Damage>%d </>"
+			"<Default>lightning damage per application, with a chance to stun the target when the ability ends.</>"),
+			Level,
+			ManaCost,
+			Cooldown,
+			ScaledDamage);
+	}
+	else 
+	{
+		return FString::Printf(TEXT(
+			//Title
+			"<Title>Lightning Beam</>\n\n"
+
+			//Level
+			"<Small>Level: </><Level>%d</>\n"
+			//ManaCost
+			"<Small>ManaCost: </><ManaCost>%.1f</>\n"
+			//Cooldown
+			"<Small>Cooldown: </><Cooldown>%.1f</>\n\n"
+
+			//Description
+			"<Default>Launches a powerful lightning beam, that spreads to the </><Level>%d</><Time> closest enemies, </>"
+			"<Default>dealing </><Damage>%d </>"
+			"<Default>lightning damage per application, with a chance to stun the target when the ability ends.</>"),
+			Level,
+			ManaCost,
+			Cooldown,
+			FMath::Min(Level - 1, MaxNumShockTargets),
+			ScaledDamage);
+	}
+	
+}
+
+FString UAuraLightningBeamSpell::GetNextLevelDescription(int32 Level)
+{
+	const float ManaCost = FMath::Abs(GetManaCost(Level));
+	const float Cooldown = GetCooldown(Level);
+	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
+
+	if (Level == 2)
+	{
+		return FString::Printf(TEXT(
+			//Title
+			"<Title>Next Level</>\n\n"
+
+			//Level
+			"<Small>Level: </><Level>%d</>\n"
+			//ManaCost
+			"<Small>ManaCost: </><ManaCost>%.1f</>\n"
+			//Cooldown
+			"<Small>Cooldown: </><Cooldown>%.1f</>\n\n"
+
+			//Description
+			"<Default>Launches a powerful lightning beam, that spreads </><Time>to the closest enemy, </>"
+			"<Default>dealing </><Damage>%d </>"
+			"<Default>lightning damage per application, with a chance to stun the target when the ability ends.</>"),
+			Level,
+			ManaCost,
+			Cooldown,
+			ScaledDamage);
+	}
+	else
+	{
+		return FString::Printf(TEXT(
+			//Title
+			"<Title>Next Level</>\n\n"
+
+			//Level
+			"<Small>Level: </><Level>%d</>\n"
+			//ManaCost
+			"<Small>ManaCost: </><ManaCost>%.1f</>\n"
+			//Cooldown
+			"<Small>Cooldown: </><Cooldown>%.1f</>\n\n"
+
+			//Description
+			"<Default>Launches a powerful lightning beam, that spreads to the </><Level>%d</><Time> closest enemies, </>"
+			"<Default>dealing </><Damage>%d </>"
+			"<Default>lightning damage per application, with a chance to stun the target when the ability ends.</>"),
+			Level,
+			ManaCost,
+			Cooldown,
+			FMath::Min(Level - 1, MaxNumShockTargets),
+			ScaledDamage);
+	}
+
+}
+
 void UAuraLightningBeamSpell::StoreMouseDataInfo(const FHitResult& HitResult)
 {
 	if (HitResult.bBlockingHit)
