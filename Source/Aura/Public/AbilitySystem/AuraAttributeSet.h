@@ -93,6 +93,24 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
 
 	/*
+	* Primary Attributes for Temporary Boosts
+	*/
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistanceBonus, Category = "Secondary Attributes")
+	FGameplayAttributeData FireResistanceBonus;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistanceBonus);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningResistanceBonus, Category = "Secondary Attributes")
+	FGameplayAttributeData LightningResistanceBonus;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LightningResistanceBonus);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistanceBonus, Category = "Secondary Attributes")
+	FGameplayAttributeData ArcaneResistanceBonus;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneResistanceBonus);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistanceBonus, Category = "Secondary Attributes")
+	FGameplayAttributeData PhysicalResistanceBonus;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistanceBonus);
+	/*
 	* Secondary Attributes
 	*/
 
@@ -239,6 +257,17 @@ public:
 	UFUNCTION()
 	void OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const;
 
+	UFUNCTION()
+	void OnRep_FireResistanceBonus(const FGameplayAttributeData& OldFireResistanceBonus) const;
+
+	UFUNCTION()
+	void OnRep_LightningResistanceBonus(const FGameplayAttributeData& OldLightningResistanceBonus) const;
+
+	UFUNCTION()
+	void OnRep_ArcaneResistanceBonus(const FGameplayAttributeData& OldArcaneResistanceBonus) const;
+
+	UFUNCTION()
+	void OnRep_PhysicalResistanceBonus(const FGameplayAttributeData& OldPhysicalResistanceBonus) const;
 
 private:
 	void HandleIncomingDamage(const FEffectProperties& Properties);
