@@ -38,11 +38,6 @@ public:
 
 	FGameplayTag Attributes_Meta_IncomingXP;
 
-	FGameplayTag Attributes_Bonus_FireResistance;
-	FGameplayTag Attributes_Bonus_LightningResistance;
-	FGameplayTag Attributes_Bonus_ArcaneResistance;
-	FGameplayTag Attributes_Bonus_PhysicalResistance;
-
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
 	FGameplayTag InputTag_1;

@@ -30,12 +30,6 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 
 	GameplayTags.Attributes_Meta_IncomingXP = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Meta.IncomingXP"), FString("Meta attribute for IncomingXP"));
 
-	GameplayTags.Attributes_Bonus_FireResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Bonus.FireResistance"), FString("Attribute for applying temporary bonus to FireResistance"));
-	GameplayTags.Attributes_Bonus_LightningResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Bonus.LightningResistance"), FString("Attribute for applying temporary bonus to LightningResistance"));
-	GameplayTags.Attributes_Bonus_ArcaneResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Bonus.ArcaneResistance"), FString("Attribute for applying temporary bonus to ArcaneResistance"));
-	GameplayTags.Attributes_Bonus_PhysicalResistance = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Bonus.PhysicalResistance"), FString("Attribute for applying temporary bonus to PhysicalResistance"));
-
-
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.LMB"), FString("InputTag for Left Mouse Button"));
 	GameplayTags.InputTag_RMB = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.RMB"), FString("InputTag for Right Mouse Button"));
 	GameplayTags.InputTag_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("InputTag.1"), FString("InputTag for mouse key 1"));

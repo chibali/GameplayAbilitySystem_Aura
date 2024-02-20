@@ -40,11 +40,6 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
-
-	TagsToAttributes.Add(GameplayTags.Attributes_Bonus_FireResistance, GetFireResistanceBonusAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Bonus_LightningResistance, GetLightningResistanceBonusAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Bonus_ArcaneResistance, GetArcaneResistanceBonusAttribute);
-	TagsToAttributes.Add(GameplayTags.Attributes_Bonus_PhysicalResistance, GetPhysicalResistanceBonusAttribute);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -80,6 +75,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, LightningResistanceBonus, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArcaneResistanceBonus, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, PhysicalResistanceBonus, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HaloOfProtectionCost, COND_None, REPNOTIFY_Always);
 }
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -156,6 +152,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
 	{
 		HandleIncomingXP(Properties);
+	}
+	if (Data.EvaluatedData.Attribute == GetMaxManaAttribute())
+	{
+		if (GetMana() > GetMaxMana())
+		{
+			SetMana(GetMaxMana());
+		}
 	}
 }
 
@@ -471,5 +474,10 @@ void UAuraAttributeSet::OnRep_ArcaneResistanceBonus(const FGameplayAttributeData
 void UAuraAttributeSet::OnRep_PhysicalResistanceBonus(const FGameplayAttributeData& OldPhysicalResistanceBonus) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, PhysicalResistanceBonus, OldPhysicalResistanceBonus);
+}
+
+void UAuraAttributeSet::OnRep_HaloOfProtectionCost(const FGameplayAttributeData& OldHaloOfProtectionCost) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, HaloOfProtectionCost, OldHaloOfProtectionCost)
 }
 

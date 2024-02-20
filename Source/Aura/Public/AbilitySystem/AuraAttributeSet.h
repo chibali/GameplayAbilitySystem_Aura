@@ -93,23 +93,28 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
 
 	/*
-	* Primary Attributes for Temporary Boosts
+	* Attributes for Temporary Boosts
 	*/
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistanceBonus, Category = "Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistanceBonus, Category = "Bonus Attributes")
 	FGameplayAttributeData FireResistanceBonus;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistanceBonus);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningResistanceBonus, Category = "Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LightningResistanceBonus, Category = "Bonus Attributes")
 	FGameplayAttributeData LightningResistanceBonus;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LightningResistanceBonus);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistanceBonus, Category = "Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArcaneResistanceBonus, Category = "Bonus Attributes")
 	FGameplayAttributeData ArcaneResistanceBonus;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneResistanceBonus);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistanceBonus, Category = "Secondary Attributes")
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistanceBonus, Category = "Bonus Attributes")
 	FGameplayAttributeData PhysicalResistanceBonus;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistanceBonus);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HaloOfProtectionCost, Category = "Bonus Attributes")
+	FGameplayAttributeData HaloOfProtectionCost;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HaloOfProtectionCost);
+
 	/*
 	* Secondary Attributes
 	*/
@@ -269,6 +274,8 @@ public:
 	UFUNCTION()
 	void OnRep_PhysicalResistanceBonus(const FGameplayAttributeData& OldPhysicalResistanceBonus) const;
 
+	UFUNCTION()
+	void OnRep_HaloOfProtectionCost(const FGameplayAttributeData& OldHaloOfProtectionCost) const;
 private:
 	void HandleIncomingDamage(const FEffectProperties& Properties);
 	void HandleIncomingXP(const FEffectProperties& Properties);
