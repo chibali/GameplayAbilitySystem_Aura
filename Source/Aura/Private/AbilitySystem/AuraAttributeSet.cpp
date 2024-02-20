@@ -40,6 +40,11 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
+
+	TagsToAttributes.Add(GameplayTags.Attributes_Bonus_FireResistance, GetFireResistanceBonusAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Bonus_LightningResistance, GetLightningResistanceBonusAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Bonus_ArcaneResistance, GetArcaneResistanceBonusAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Bonus_PhysicalResistance, GetPhysicalResistanceBonusAttribute);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

@@ -38,6 +38,11 @@ public:
 
 	FGameplayTag Attributes_Meta_IncomingXP;
 
+	FGameplayTag Attributes_Bonus_FireResistance;
+	FGameplayTag Attributes_Bonus_LightningResistance;
+	FGameplayTag Attributes_Bonus_ArcaneResistance;
+	FGameplayTag Attributes_Bonus_PhysicalResistance;
+
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
 	FGameplayTag InputTag_1;
@@ -115,6 +120,9 @@ public:
 	FGameplayTag Player_Block_InputHeld;
 	FGameplayTag Player_Block_InputReleased;
 	FGameplayTag Player_Block_CursorTrace;
+
+	
+
 private:
 	static FAuraGameplayTags GameplayTags;
 };
