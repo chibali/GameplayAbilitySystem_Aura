@@ -38,10 +38,9 @@ float UMMC_MaxMana::CalculateBaseMagnitude_Implementation(const FGameplayEffectS
 	GetCapturedAttributeMagnitude(HaloOfProtectionCostDef, Spec, EvaluationParameters, HaloOfProtectionCost);
 	HaloOfProtectionCost = FMath::Max<float>(HaloOfProtectionCost, 0.f);
 
+	
 	int32 PlayerLevel = 1;
-	FString Context = Spec.GetContext().ToString();
-	FString SourceObject = Spec.GetContext().GetSourceObject()->GetName();
-	if (Spec.GetContext().GetSourceObject()->Implements<UCombatInterface>())
+	if (Spec.GetContext().GetEffectCauser()->Implements<UCombatInterface>())
 	{
 		PlayerLevel = ICombatInterface::Execute_GetPlayerLevel(Spec.GetContext().GetSourceObject());
 	}

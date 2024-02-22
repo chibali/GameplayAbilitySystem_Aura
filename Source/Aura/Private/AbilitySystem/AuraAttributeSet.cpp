@@ -153,7 +153,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		HandleIncomingXP(Properties);
 	}
-	if (Data.EvaluatedData.Attribute == GetMaxManaAttribute())
+	if (Data.EvaluatedData.Attribute == GetHaloOfProtectionCostAttribute())
 	{
 		if (GetMana() > GetMaxMana())
 		{

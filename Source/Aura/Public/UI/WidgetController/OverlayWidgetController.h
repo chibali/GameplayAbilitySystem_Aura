@@ -32,6 +32,7 @@ struct FUIWidgetRow : public FTableRowBase
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHaloOfProtectionActivatedSignature, float, OriginalMaxMana, bool, bIsActive);
 
 /**
  * 
@@ -65,6 +66,8 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
 	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
+
+	FOnHaloOfProtectionActivatedSignature OnHaloOfProtectionActivatedDelegate;
 
 	UFUNCTION(BlueprintCallable)
 	void OnXPChanged(int32 XP);
