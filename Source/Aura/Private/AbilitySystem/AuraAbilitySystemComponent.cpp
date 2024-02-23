@@ -426,7 +426,6 @@ void UAuraAbilitySystemComponent::ClientEquipAbility_Implementation(const FGamep
 void UAuraAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 AbilityLevel)
 {
 	AbilityStatusChanged.Broadcast(AbilityTag, StatusTag, AbilityLevel);
-
 }
 
 void UAuraAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)

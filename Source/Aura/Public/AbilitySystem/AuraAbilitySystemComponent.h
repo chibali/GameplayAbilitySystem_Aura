@@ -13,8 +13,9 @@ DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag
 DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag&, /*AbilityTag*/ const FGameplayTag&, /*AbilityStatus*/ const FGameplayTag&, /*NewSlot*/ const FGameplayTag& /*PreviousSlot*/);
 DECLARE_MULTICAST_DELEGATE_OneParam(FDeactivatePassiveAbility, const FGameplayTag& /*PassiveTag*/);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FActivatePassiveAbility, const FGameplayTag& /*PassiveTag*/, bool /*bActivate*/);
+
 /**
- * 
+ *
  */
 UCLASS()
 class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent

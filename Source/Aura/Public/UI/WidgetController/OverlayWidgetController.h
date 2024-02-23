@@ -67,10 +67,14 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
 	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
 
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnHaloOfProtectionActivatedSignature OnHaloOfProtectionActivatedDelegate;
 
 	UFUNCTION(BlueprintCallable)
 	void OnXPChanged(int32 XP);
+
+	UFUNCTION(BlueprintCallable)
+	void OnHaloOfProtectionActivated(const FGameplayTag& PassiveTag, bool bIsActive);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Widget Data")
@@ -79,7 +83,7 @@ protected:
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
-	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& AbilityStatus, const FGameplayTag& NewSlot, const FGameplayTag& PreviousSlot) const;
+	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& AbilityStatus, const FGameplayTag& NewSlot, const FGameplayTag& PreviousSlot);
 };
 
 template<typename T>

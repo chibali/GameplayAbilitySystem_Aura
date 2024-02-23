@@ -17,6 +17,7 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnManaChanged.Broadcast(GetAuraAS()->GetMana());
 	OnMaxManaChanged.Broadcast(GetAuraAS()->GetMaxMana());
 	OnXPPercentChangedDelegate.Broadcast(0.f);
+	OnHaloOfProtectionActivatedDelegate.Broadcast(GetAuraAS()->GetMaxMana(), false);
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
@@ -34,7 +35,8 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		GetAuraAS()->GetMaxManaAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data) {OnMaxManaChanged.Broadcast(Data.NewValue); });
-	
+	GetAuraASC()->ActivatePassiveAbility.AddUObject(this, &UOverlayWidgetController::OnHaloOfProtectionActivated);
+
 	GetAuraPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	
 	GetAuraPS()->OnLevelChangedDelegate.AddLambda(
@@ -42,6 +44,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			OnPlayerLevelChangeDelegate.Broadcast(NewLevel);
 		}
 	);
+
 
 	if (GetAuraASC())
 	{
@@ -97,7 +100,18 @@ void UOverlayWidgetController::OnXPChanged(int32 XP)
 	}
 }
 
-void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& AbilityStatus, const FGameplayTag& NewSlot, const FGameplayTag& PreviousSlot) const
+void UOverlayWidgetController::OnHaloOfProtectionActivated(const FGameplayTag& PassiveTag, bool bIsActive)
+{
+	if (PassiveTag.MatchesTagExact(FAuraGameplayTags::Get().Abilities_Passive_HaloOfProtection))
+	{
+		float OriginalMaxMana = GetAuraAS()->GetMaxMana();
+		float HaloOfProtectionCostCoefficient = (1 - GetAuraAS()->GetHaloOfProtectionCost());
+		OriginalMaxMana = OriginalMaxMana / HaloOfProtectionCostCoefficient;
+		OnHaloOfProtectionActivatedDelegate.Broadcast(OriginalMaxMana, bIsActive);
+	}
+}
+
+void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& AbilityStatus, const FGameplayTag& NewSlot, const FGameplayTag& PreviousSlot)
 {
 	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
 
