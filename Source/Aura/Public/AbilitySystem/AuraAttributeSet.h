@@ -283,6 +283,7 @@ private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Properties) const;
 	void ShowFloatingText(const FEffectProperties& Properties, float Damage, bool bBlockedHit, bool bCriticalHit) const;
 	void SendXPEvent(const FEffectProperties& Props);
+	void HandleLifeSiphon(const FEffectProperties& Properties);
 
 	bool bTopOffHealth = false;
 	bool bTopOffMana = false;

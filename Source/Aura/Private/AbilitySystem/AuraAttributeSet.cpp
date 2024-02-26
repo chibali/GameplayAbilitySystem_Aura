@@ -209,6 +209,7 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 		{
 			Debuff(Properties);
 		}
+		HandleLifeSiphon(Properties);
 	}
 }
 
@@ -347,6 +348,16 @@ void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
 		Payload.EventTag = GameplayTags.Attributes_Meta_IncomingXP;
 		Payload.EventMagnitude = XPReward;
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter, GameplayTags.Attributes_Meta_IncomingXP, Payload);
+	}
+}
+
+void UAuraAttributeSet::HandleLifeSiphon(const FEffectProperties& Properties)
+{
+	FGameplayTagContainer TagContainer;
+	Properties.SourceAbilitySystemComponent->GetOwnedGameplayTags(TagContainer);
+	if (TagContainer.HasTagExact(FAuraGameplayTags::Get().Abilities_Passive_LifeSiphon))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Life Siphon is Active"));
 	}
 }
 
