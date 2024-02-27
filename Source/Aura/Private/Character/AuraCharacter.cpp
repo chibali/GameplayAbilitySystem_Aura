@@ -196,6 +196,16 @@ int32 AAuraCharacter::GetPlayerLevel_Implementation()
 	return AuraPlayerState->GetPlayerLevel();
 }
 
+float AAuraCharacter::GetLifeSteal_Implementation()
+{
+	if (UAuraAttributeSet* AuraAS = Cast<UAuraAttributeSet>(AttributeSet))
+	{
+		const float LocalLifeSteal = AuraAS->GetLifeSteal();
+		return LocalLifeSteal;
+	}
+	else return 0.f;
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	if (AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>())

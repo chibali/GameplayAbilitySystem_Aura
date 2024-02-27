@@ -115,6 +115,14 @@ public:
 	FGameplayAttributeData HaloOfProtectionCost;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HaloOfProtectionCost);
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LifeSteal, Category = "Bonus Attributes")
+	FGameplayAttributeData LifeSteal;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LifeSteal);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_LifeSiphonCost, Category = "Bonus Attributes")
+	FGameplayAttributeData LifeSiphonCost;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LifeSiphonCost);
+
 	/*
 	* Secondary Attributes
 	*/
@@ -276,6 +284,12 @@ public:
 
 	UFUNCTION()
 	void OnRep_HaloOfProtectionCost(const FGameplayAttributeData& OldHaloOfProtectionCost) const;
+
+	UFUNCTION()
+	void OnRep_LifeSteal(const FGameplayAttributeData& OldLifeSteal) const;
+
+	UFUNCTION()
+	void OnRep_LifeSiphonCost(const FGameplayAttributeData& OldLifeSiphonCost) const;
 private:
 	void HandleIncomingDamage(const FEffectProperties& Properties);
 	void HandleIncomingXP(const FEffectProperties& Properties);
@@ -283,7 +297,7 @@ private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Properties) const;
 	void ShowFloatingText(const FEffectProperties& Properties, float Damage, bool bBlockedHit, bool bCriticalHit) const;
 	void SendXPEvent(const FEffectProperties& Props);
-	void HandleLifeSiphon(const FEffectProperties& Properties);
+	void HandleLifeSiphon(const FEffectProperties& Properties, float InIncomingDamage);
 
 	bool bTopOffHealth = false;
 	bool bTopOffMana = false;

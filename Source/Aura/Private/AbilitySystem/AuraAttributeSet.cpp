@@ -76,6 +76,8 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArcaneResistanceBonus, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, PhysicalResistanceBonus, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HaloOfProtectionCost, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, LifeSteal, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, LifeSiphonCost, COND_None, REPNOTIFY_Always);
 }
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -209,7 +211,7 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 		{
 			Debuff(Properties);
 		}
-		HandleLifeSiphon(Properties);
+		HandleLifeSiphon(Properties, LocalIncomingDamage);
 	}
 }
 
@@ -351,13 +353,42 @@ void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
 	}
 }
 
-void UAuraAttributeSet::HandleLifeSiphon(const FEffectProperties& Properties)
+void UAuraAttributeSet::HandleLifeSiphon(const FEffectProperties& Properties, float InIncomingDamage)
 {
 	FGameplayTagContainer TagContainer;
 	Properties.SourceAbilitySystemComponent->GetOwnedGameplayTags(TagContainer);
 	if (TagContainer.HasTagExact(FAuraGameplayTags::Get().Abilities_Passive_LifeSiphon))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Life Siphon is Active"));
+		
+		FGameplayEffectContextHandle EffectContext = Properties.SourceAbilitySystemComponent->MakeEffectContext();
+		EffectContext.AddSourceObject(Properties.SourceAvatarActor);
+
+		if (Properties.SourceCharacter->Implements<UCombatInterface>())
+		{
+			const float LocalLifeSteal = ICombatInterface::Execute_GetLifeSteal(Properties.SourceCharacter);
+
+			FString LifeSiphon = FString::Printf(TEXT("Life Siphon"));
+			UGameplayEffect* Effect = NewObject<UGameplayEffect>(GetTransientPackage(), FName(LifeSiphon));
+
+			Effect->DurationPolicy = EGameplayEffectDurationType::Instant;
+			Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
+			Effect->StackLimitCount = 1;
+
+			int32 Index = Effect->Modifiers.Num();
+			Effect->Modifiers.Add(FGameplayModifierInfo());
+			FGameplayModifierInfo& ModifierInfo = Effect->Modifiers[Index];
+
+			FScalableFloat EffectiveLifeSteal = LocalLifeSteal * InIncomingDamage;
+			ModifierInfo.ModifierMagnitude = EffectiveLifeSteal;
+			ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+			ModifierInfo.Attribute = UAuraAttributeSet::GetHealthAttribute();
+
+			if (FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f))
+			{
+				Properties.SourceAbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*MutableSpec, Properties.SourceAbilitySystemComponent);
+			}
+		}
 	}
 }
 
@@ -490,5 +521,15 @@ void UAuraAttributeSet::OnRep_PhysicalResistanceBonus(const FGameplayAttributeDa
 void UAuraAttributeSet::OnRep_HaloOfProtectionCost(const FGameplayAttributeData& OldHaloOfProtectionCost) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, HaloOfProtectionCost, OldHaloOfProtectionCost)
+}
+
+void UAuraAttributeSet::OnRep_LifeSteal(const FGameplayAttributeData& OldLifeSteal) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, LifeSteal, OldLifeSteal);
+}
+
+void UAuraAttributeSet::OnRep_LifeSiphonCost(const FGameplayAttributeData& OldLifeSiphonCost) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, LifeSiphonCost, OldLifeSiphonCost);
 }
 

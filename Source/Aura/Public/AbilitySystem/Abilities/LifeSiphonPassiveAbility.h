@@ -13,5 +13,14 @@ UCLASS()
 class AURA_API ULifeSiphonPassiveAbility : public UAuraPassiveAbility
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	UFUNCTION(BlueprintPure)
+	float GetLifeStealAtLevel() const;
+
+private:
+
+	UPROPERTY(EditAnywhere)
+	FScalableFloat LifeSteal;
 };

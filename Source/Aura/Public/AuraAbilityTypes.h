@@ -79,7 +79,7 @@ public:
 	FVector GetDeathImpulse() const { return DeathImpulse; }
 	bool IsKnockback() const { return bIsKnockback; }
 	FVector GetKnockback() const { return Knockback; }
-	
+
 	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; }
 	void SetIsCriticalHit(bool bInIsCriticalHit) { bIsCriticalHit = bInIsCriticalHit; }
 	void SetIsSuccessfulDebuff(bool bInIsSuccessfulDebuff) { bIsSuccessfulDebuff = bInIsSuccessfulDebuff; }
@@ -143,6 +143,7 @@ protected:
 
 	UPROPERTY()
 	FVector Knockback = FVector::ZeroVector;
+
 };
 
 template<>

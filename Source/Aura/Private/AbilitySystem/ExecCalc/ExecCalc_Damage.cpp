@@ -57,6 +57,7 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().LightningResistanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().ArcaneResistanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().PhysicalResistanceDef);
+
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
@@ -187,6 +188,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	// Final Damage Output
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
+
 }
 
 void UExecCalc_Damage::DetermineKnockback(const FGameplayEffectSpec& Spec) const
@@ -201,7 +203,6 @@ void UExecCalc_Damage::DetermineKnockback(const FGameplayEffectSpec& Spec) const
 	if (bIsKnockback)
 	{
 		FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
-
 		UAuraAbilitySystemLibrary::SetIsKnockback(ContextHandle, bIsKnockback);
 	}
 }

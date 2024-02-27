@@ -45,6 +45,7 @@ public:
 
 	//~ Begin Combat Interface
 	virtual int32 GetPlayerLevel_Implementation() override;
+	virtual float GetLifeSteal_Implementation() override;
 	//~ End Combat Interface
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
