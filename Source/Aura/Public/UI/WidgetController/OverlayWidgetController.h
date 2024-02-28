@@ -32,7 +32,7 @@ struct FUIWidgetRow : public FTableRowBase
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHaloOfProtectionActivatedSignature, float, OriginalMaxMana, bool, bIsActive);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPassiveActivatedSignature, float, OriginalMaxResource, bool, bIsActive);
 
 /**
  * 
@@ -68,13 +68,16 @@ public:
 	FOnAttributeChangedSignature OnXPPercentChangedDelegate;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
-	FOnHaloOfProtectionActivatedSignature OnHaloOfProtectionActivatedDelegate;
+	FOnPassiveActivatedSignature OnHaloOfProtectionActivatedDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+	FOnPassiveActivatedSignature OnLifeSiphonActivatedDelegate;
 
 	UFUNCTION(BlueprintCallable)
 	void OnXPChanged(int32 XP);
 
 	UFUNCTION(BlueprintCallable)
-	void OnHaloOfProtectionActivated(const FGameplayTag& PassiveTag, bool bIsActive);
+	void OnPassiveAbilityActivated(const FGameplayTag& PassiveTag, bool bIsActive);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Widget Data")

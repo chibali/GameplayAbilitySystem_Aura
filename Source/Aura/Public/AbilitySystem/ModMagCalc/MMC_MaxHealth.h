@@ -22,4 +22,5 @@ public:
 private:
 
 	FGameplayEffectAttributeCaptureDefinition VigorDef;
+	FGameplayEffectAttributeCaptureDefinition LifeSiphonCostDef;
 };

@@ -162,6 +162,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			SetMana(GetMaxMana());
 		}
 	}
+	if (Data.EvaluatedData.Attribute == GetLifeSiphonCostAttribute())
+	{
+		if (GetHealth() > GetMaxHealth())
+		{
+			SetHealth(GetMaxHealth());
+		}
+	}
 }
 
 void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties)

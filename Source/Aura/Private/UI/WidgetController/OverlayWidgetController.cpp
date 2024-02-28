@@ -18,6 +18,7 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnMaxManaChanged.Broadcast(GetAuraAS()->GetMaxMana());
 	OnXPPercentChangedDelegate.Broadcast(0.f);
 	OnHaloOfProtectionActivatedDelegate.Broadcast(GetAuraAS()->GetMaxMana(), false);
+	OnLifeSiphonActivatedDelegate.Broadcast(GetAuraAS()->GetMaxHealth(), false);
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
@@ -35,7 +36,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		GetAuraAS()->GetMaxManaAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data) {OnMaxManaChanged.Broadcast(Data.NewValue); });
-	GetAuraASC()->ActivatePassiveAbility.AddUObject(this, &UOverlayWidgetController::OnHaloOfProtectionActivated);
+	GetAuraASC()->ActivatePassiveAbility.AddUObject(this, &UOverlayWidgetController::OnPassiveAbilityActivated);
 
 	GetAuraPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	
@@ -100,14 +101,23 @@ void UOverlayWidgetController::OnXPChanged(int32 XP)
 	}
 }
 
-void UOverlayWidgetController::OnHaloOfProtectionActivated(const FGameplayTag& PassiveTag, bool bIsActive)
+void UOverlayWidgetController::OnPassiveAbilityActivated(const FGameplayTag& PassiveTag, bool bIsActive)
 {
-	if (PassiveTag.MatchesTagExact(FAuraGameplayTags::Get().Abilities_Passive_HaloOfProtection))
+
+	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+	if (PassiveTag.MatchesTagExact(GameplayTags.Abilities_Passive_HaloOfProtection))
 	{
 		float OriginalMaxMana = GetAuraAS()->GetMaxMana();
 		float HaloOfProtectionCostCoefficient = (1 - GetAuraAS()->GetHaloOfProtectionCost());
 		OriginalMaxMana = OriginalMaxMana / HaloOfProtectionCostCoefficient;
 		OnHaloOfProtectionActivatedDelegate.Broadcast(OriginalMaxMana, bIsActive);
+	}
+	if (PassiveTag.MatchesTagExact(GameplayTags.Abilities_Passive_LifeSiphon))
+	{
+		float OriginalMaxHealth = GetAuraAS()->GetMaxHealth();
+		float LifeSiphonCostCoeffiecient = (1 - GetAuraAS()->GetLifeSiphonCost());
+		OriginalMaxHealth = OriginalMaxHealth / LifeSiphonCostCoeffiecient;
+		OnLifeSiphonActivatedDelegate.Broadcast(OriginalMaxHealth, bIsActive);
 	}
 }
 
