@@ -16,6 +16,9 @@ class AURA_API ULifeSiphonPassiveAbility : public UAuraPassiveAbility
 
 public:
 
+	virtual FString GetDescription(int32 Level) override;
+	virtual FString GetNextLevelDescription(int32 Level) override;
+
 	UFUNCTION(BlueprintPure)
 	float GetLifeStealAtLevel() const;
 

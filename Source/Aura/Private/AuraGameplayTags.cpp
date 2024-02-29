@@ -137,4 +137,5 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Player_Block_InputReleased = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Player.Block.InputReleased"), FString("Block Player InputReleased callback for input"));
 	GameplayTags.Player_Block_InputHeld = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Player.Block.InputHeld"), FString("Block Player InputHeld callback for input"));
 	GameplayTags.Player_Block_CursorTrace = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Player.Block.CursorTrace"), FString("Block Player CursorTrace callback"));
+	GameplayTags.Player_Block_LifeSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Player.Block.LifeSiphon"), FString("Block Player LifeSiphon callback"));
 }

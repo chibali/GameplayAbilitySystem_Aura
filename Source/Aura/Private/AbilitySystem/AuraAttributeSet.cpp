@@ -295,6 +295,7 @@ void UAuraAttributeSet::Debuff(const FEffectProperties& Properties)
 	if (FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f))
 	{
 		MutableSpec->DynamicGrantedTags.AddTag(DebuffTag);
+		MutableSpec->DynamicGrantedTags.AddTag(GameplayTags.Player_Block_LifeSiphon);
 		if (DebuffTag.MatchesTagExact(GameplayTags.Debuff_Stun))
 		{
 			MutableSpec->DynamicGrantedTags.AddTag(GameplayTags.Player_Block_CursorTrace);
@@ -362,12 +363,10 @@ void UAuraAttributeSet::SendXPEvent(const FEffectProperties& Props)
 
 void UAuraAttributeSet::HandleLifeSiphon(const FEffectProperties& Properties, float InIncomingDamage)
 {
-	FGameplayTagContainer TagContainer;
-	Properties.SourceAbilitySystemComponent->GetOwnedGameplayTags(TagContainer);
-	if (TagContainer.HasTagExact(FAuraGameplayTags::Get().Abilities_Passive_LifeSiphon))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Life Siphon is Active"));
-		
+	FGameplayTagContainer SourceTagContainer;
+	Properties.SourceAbilitySystemComponent->GetOwnedGameplayTags(SourceTagContainer);
+	if (SourceTagContainer.HasTagExact(FAuraGameplayTags::Get().Abilities_Passive_LifeSiphon))
+	{	
 		FGameplayEffectContextHandle EffectContext = Properties.SourceAbilitySystemComponent->MakeEffectContext();
 		EffectContext.AddSourceObject(Properties.SourceAvatarActor);
 
@@ -393,7 +392,14 @@ void UAuraAttributeSet::HandleLifeSiphon(const FEffectProperties& Properties, fl
 
 			if (FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f))
 			{
-				Properties.SourceAbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*MutableSpec, Properties.SourceAbilitySystemComponent);
+				// Check if Target has an active debuff - Block LifeSiphon from healing from debuffs.
+				FGameplayTagContainer TargetTagContainer;
+				Properties.TargetAbilitySystemComponent->GetOwnedGameplayTags(TargetTagContainer);
+				if (!TargetTagContainer.HasTagExact(FAuraGameplayTags::Get().Player_Block_LifeSiphon))
+				{
+					Properties.SourceAbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*MutableSpec, Properties.SourceAbilitySystemComponent);
+				}
+				
 			}
 		}
 	}

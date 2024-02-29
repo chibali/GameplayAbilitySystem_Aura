@@ -5,7 +5,7 @@
 
 FString UHaloOfProtectionPassiveAbility::GetDescription(int32 Level)
 {
-	/*const float ManaCost = FMath::Abs(GetManaCost(Level));*/
+	const float AbilityCost = FMath::Abs(GetAbilityCost(Level)) * 100;
 
 	const int32 ScaledElementalResistanceBonus = ElementalResistanceBonus.GetValueAtLevel(Level);
 	return FString::Printf(TEXT(
@@ -15,20 +15,20 @@ FString UHaloOfProtectionPassiveAbility::GetDescription(int32 Level)
 		//Level
 		"<Small>Level: </><Level>%d</>\n"
 		//ManaCost
-		//"<Small>ManaCost: /*</><ManaCost>%.1f</>*/\n"
+		"<Small>ManaCost:</><Cooldown> Reserves </><ManaCost>%.1f percent</><Cooldown> of MaxMana</>\n\n"
 
 		//Description
-		"<Default>Grants protection to those who seek it. When equipped, grants a flat </><Percent>%d"
+		"<Default>Grants protection to those who seek it. When equipped, grants a flat </><Percent>%d percent"
 		"%"
 		"</><Default> bonus to every resistance.</>"),
 		Level,
-		//ManaCost,
+		AbilityCost,
 		ScaledElementalResistanceBonus);
 }
 
 FString UHaloOfProtectionPassiveAbility::GetNextLevelDescription(int32 Level)
 {
-	/*const float ManaCost = FMath::Abs(GetManaCost(Level));*/
+	const float AbilityCost = FMath::Abs(GetAbilityCost(Level)) * 100;
 
 	const int32 ScaledElementalResistanceBonus = ElementalResistanceBonus.GetValueAtLevel(Level);
 	return FString::Printf(TEXT(
@@ -38,13 +38,13 @@ FString UHaloOfProtectionPassiveAbility::GetNextLevelDescription(int32 Level)
 		//Level
 		"<Small>Level: </><Level>%d</>\n"
 		//ManaCost
-		//"<Small>ManaCost: /*</><ManaCost>%.1f</>*/\n"
+		"<Small>ManaCost:</><Cooldown> Reserves </><ManaCost>%.1f percent</><Cooldown> of MaxMana</>\n\n"
 
 		//Description
-		"<Default>Grants protection to those who seek it. When equipped, grants a flat </><Percent>%d"
+		"<Default>Grants protection to those who seek it. When equipped, grants a flat </><Percent>%d percent"
 		"%"
 		"</><Default> bonus to every resistance.</>"),
 		Level,
-		//ManaCost,
+		AbilityCost,
 		ScaledElementalResistanceBonus);
 }

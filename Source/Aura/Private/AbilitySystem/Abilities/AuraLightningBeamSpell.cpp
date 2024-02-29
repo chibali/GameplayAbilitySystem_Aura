@@ -8,7 +8,7 @@
 
 FString UAuraLightningBeamSpell::GetDescription(int32 Level)
 {
-	const float ManaCost = FMath::Abs(GetManaCost(Level));
+	const float ManaCost = FMath::Abs(GetAbilityCost(Level));
 	const float Cooldown = GetCooldown(Level);
 
 	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
@@ -85,7 +85,7 @@ FString UAuraLightningBeamSpell::GetDescription(int32 Level)
 
 FString UAuraLightningBeamSpell::GetNextLevelDescription(int32 Level)
 {
-	const float ManaCost = FMath::Abs(GetManaCost(Level));
+	const float ManaCost = FMath::Abs(GetAbilityCost(Level));
 	const float Cooldown = GetCooldown(Level);
 	const int32 ScaledDamage = Damage.GetValueAtLevel(Level);
 

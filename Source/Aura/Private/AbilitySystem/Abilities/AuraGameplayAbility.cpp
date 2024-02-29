@@ -19,21 +19,31 @@ FString UAuraGameplayAbility::GetLockedDescription(int32 Level)
     return FString::Printf(TEXT("<Default>Spell locked until Level: %d</>"), Level);
 }
 
-float UAuraGameplayAbility::GetManaCost(float InLevel) const
+float UAuraGameplayAbility::GetAbilityCost(float InLevel) const
 {
-    float ManaCost = 0.f;
+    float AbilityCost = 0.f;
     if (const UGameplayEffect* CostEffect = GetCostGameplayEffect())
     {
         for (FGameplayModifierInfo Mod : CostEffect->Modifiers)
         {
             if (Mod.Attribute == UAuraAttributeSet::GetManaAttribute())
             {
-                Mod.ModifierMagnitude.GetStaticMagnitudeIfPossible(InLevel, ManaCost);
+                Mod.ModifierMagnitude.GetStaticMagnitudeIfPossible(InLevel, AbilityCost);
+                break;
+            }
+            else if (Mod.Attribute == UAuraAttributeSet::GetHaloOfProtectionCostAttribute())
+            {
+                Mod.ModifierMagnitude.GetStaticMagnitudeIfPossible(InLevel, AbilityCost);
+                break;
+            }
+            else if (Mod.Attribute == UAuraAttributeSet::GetLifeSiphonCostAttribute())
+            {
+                Mod.ModifierMagnitude.GetStaticMagnitudeIfPossible(InLevel, AbilityCost);
                 break;
             }
         }
     }
-    return ManaCost;
+    return AbilityCost;
 }
 
 float UAuraGameplayAbility::GetCooldown(float InLevel) const
