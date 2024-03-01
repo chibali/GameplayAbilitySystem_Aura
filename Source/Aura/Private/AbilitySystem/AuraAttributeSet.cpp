@@ -78,6 +78,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HaloOfProtectionCost, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, LifeSteal, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, LifeSiphonCost, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaSiphonRegen, COND_None, REPNOTIFY_Always);
 }
 
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -405,6 +406,50 @@ void UAuraAttributeSet::HandleLifeSiphon(const FEffectProperties& Properties, fl
 	}
 }
 
+void UAuraAttributeSet::HandleManaSiphon(const FEffectProperties& Properties)
+{
+	FGameplayTagContainer SourceTagContainer;
+	Properties.SourceAbilitySystemComponent->GetOwnedGameplayTags(SourceTagContainer);
+	if (SourceTagContainer.HasTagExact(FAuraGameplayTags::Get().Abilities_Passive_ManaSiphon))
+	{
+		FGameplayEffectContextHandle EffectContext = Properties.SourceAbilitySystemComponent->MakeEffectContext();
+		EffectContext.AddSourceObject(Properties.SourceAvatarActor);
+
+		if (Properties.SourceCharacter->Implements<UCombatInterface>())
+		{
+			const float LocalManaRegen = ICombatInterface::Execute_GetManaRegen(Properties.SourceCharacter);
+
+			FString ManaSiphon = FString::Printf(TEXT("Mana Siphon"));
+			UGameplayEffect* Effect = NewObject<UGameplayEffect>(GetTransientPackage(), FName(ManaSiphon));
+
+			Effect->DurationPolicy = EGameplayEffectDurationType::Instant;
+			Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
+			Effect->StackLimitCount = 1;
+
+			int32 Index = Effect->Modifiers.Num();
+			Effect->Modifiers.Add(FGameplayModifierInfo());
+			FGameplayModifierInfo& ModifierInfo = Effect->Modifiers[Index];
+
+			FScalableFloat EffectiveLifeSteal = LocalLifeSteal * InIncomingDamage;
+			ModifierInfo.ModifierMagnitude = EffectiveLifeSteal;
+			ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+			ModifierInfo.Attribute = UAuraAttributeSet::GetHealthAttribute();
+
+			if (FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(Effect, EffectContext, 1.f))
+			{
+				// Check if Target has an active debuff - Block LifeSiphon from healing from debuffs.
+				FGameplayTagContainer TargetTagContainer;
+				Properties.TargetAbilitySystemComponent->GetOwnedGameplayTags(TargetTagContainer);
+				if (!TargetTagContainer.HasTagExact(FAuraGameplayTags::Get().Player_Block_LifeSiphon))
+				{
+					Properties.SourceAbilitySystemComponent->ApplyGameplayEffectSpecToTarget(*MutableSpec, Properties.SourceAbilitySystemComponent);
+				}
+
+			}
+		}
+	}
+}
+
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
 {
@@ -544,5 +589,10 @@ void UAuraAttributeSet::OnRep_LifeSteal(const FGameplayAttributeData& OldLifeSte
 void UAuraAttributeSet::OnRep_LifeSiphonCost(const FGameplayAttributeData& OldLifeSiphonCost) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, LifeSiphonCost, OldLifeSiphonCost);
+}
+
+void UAuraAttributeSet::OnRep_ManaSiphonCost(const FGameplayAttributeData& OldManaSiphonRegen) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ManaSiphonRegen, ManaSiphonRegen);
 }
 

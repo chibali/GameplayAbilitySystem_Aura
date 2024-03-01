@@ -11,6 +11,7 @@ class UNiagaraComponent;
 class UCameraComponent;
 class USpringArmComponent;
 class USoundBase;
+class UAuraAttributeSet;
 
 /**
  * 
@@ -46,6 +47,7 @@ public:
 	//~ Begin Combat Interface
 	virtual int32 GetPlayerLevel_Implementation() override;
 	virtual float GetLifeSteal_Implementation() override;
+	virtual float GetManaRegen_Implementation() override;
 	//~ End Combat Interface
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -58,7 +60,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USpringArmComponent> CameraBoom;
 
-	
+	UPROPERTY()
+	TObjectPtr<UAuraAttributeSet> AuraAS;
+
 	void InitAbilityActorInfo() override;
 
 	UFUNCTION(NetMulticast, Reliable)

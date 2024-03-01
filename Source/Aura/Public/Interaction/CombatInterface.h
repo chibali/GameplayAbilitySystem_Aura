@@ -56,6 +56,9 @@ public:
 	float GetLifeSteal();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	float GetManaRegen();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetCombatSocketLocation(const FGameplayTag& MontageTag);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

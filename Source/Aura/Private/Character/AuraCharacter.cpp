@@ -52,6 +52,8 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	// Initiliaze ability actor info for the server
 	InitAbilityActorInfo();
 	AddCharacterAbilities();
+	AuraAS = Cast<UAuraAttributeSet>(AttributeSet);
+	check(AuraAS);
 }
 
 void AAuraCharacter::OnRep_PlayerState()
@@ -198,12 +200,12 @@ int32 AAuraCharacter::GetPlayerLevel_Implementation()
 
 float AAuraCharacter::GetLifeSteal_Implementation()
 {
-	if (UAuraAttributeSet* AuraAS = Cast<UAuraAttributeSet>(AttributeSet))
-	{
-		const float LocalLifeSteal = AuraAS->GetLifeSteal();
-		return LocalLifeSteal;
-	}
-	else return 0.f;
+	return AuraAS->GetLifeSteal();
+}
+
+float AAuraCharacter::GetManaRegen_Implementation()
+{
+	return AuraAS->GetManaRegen();
 }
 
 void AAuraCharacter::InitAbilityActorInfo()
@@ -213,8 +215,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 		AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
 		AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 		Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
-		AttributeSet = AuraPlayerState->GetAttributeSet();
-		
+		AttributeSet = AuraPlayerState->GetAttributeSet();	
 		OnASCRegistered.Broadcast(AbilitySystemComponent);
 		AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraCharacter::StunTagChanged);
 

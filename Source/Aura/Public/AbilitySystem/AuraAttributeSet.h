@@ -123,6 +123,10 @@ public:
 	FGameplayAttributeData LifeSiphonCost;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, LifeSiphonCost);
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ManaSiphonRegen, Category = "Bonus Attributes")
+	FGameplayAttributeData ManaSiphonRegen;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaSiphonRegen);
+
 	/*
 	* Secondary Attributes
 	*/
@@ -290,6 +294,10 @@ public:
 
 	UFUNCTION()
 	void OnRep_LifeSiphonCost(const FGameplayAttributeData& OldLifeSiphonCost) const;
+
+	UFUNCTION()
+	void OnRep_ManaSiphonCost(const FGameplayAttributeData& OldManaSiphonCost) const;
+
 private:
 	void HandleIncomingDamage(const FEffectProperties& Properties);
 	void HandleIncomingXP(const FEffectProperties& Properties);
@@ -298,6 +306,7 @@ private:
 	void ShowFloatingText(const FEffectProperties& Properties, float Damage, bool bBlockedHit, bool bCriticalHit) const;
 	void SendXPEvent(const FEffectProperties& Props);
 	void HandleLifeSiphon(const FEffectProperties& Properties, float InIncomingDamage);
+	void HandleManaSiphon(const FEffectProperties& Properties);
 
 	bool bTopOffHealth = false;
 	bool bTopOffMana = false;
