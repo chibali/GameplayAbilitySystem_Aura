@@ -187,15 +187,15 @@ int32 AAuraCharacter::GetAttributePoints_Implementation() const
 int32 AAuraCharacter::GetSpellPoints_Implementation() const
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	return AuraPlayerState->GetSpellPoints();
+	if (AuraPlayerState) return AuraPlayerState->GetSpellPoints();
+	else return 0;
 }
 
 int32 AAuraCharacter::GetPlayerLevel_Implementation()
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
-	check(AuraPlayerState);
-	return AuraPlayerState->GetPlayerLevel();
+	if (AuraPlayerState) return AuraPlayerState->GetPlayerLevel();
+	else return 0;
 }
 
 float AAuraCharacter::GetLifeSteal_Implementation()
