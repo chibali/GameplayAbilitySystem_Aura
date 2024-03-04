@@ -296,7 +296,7 @@ public:
 	void OnRep_LifeSiphonCost(const FGameplayAttributeData& OldLifeSiphonCost) const;
 
 	UFUNCTION()
-	void OnRep_ManaSiphonCost(const FGameplayAttributeData& OldManaSiphonCost) const;
+	void OnRep_ManaSiphonRegen(const FGameplayAttributeData& OldManaSiphonRegen) const;
 
 private:
 	void HandleIncomingDamage(const FEffectProperties& Properties);

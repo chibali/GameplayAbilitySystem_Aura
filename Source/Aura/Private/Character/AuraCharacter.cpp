@@ -205,7 +205,12 @@ float AAuraCharacter::GetLifeSteal_Implementation()
 
 float AAuraCharacter::GetManaRegen_Implementation()
 {
-	return AuraAS->GetManaRegen();
+	return AuraAS->GetManaSiphonRegen();
+}
+
+void AAuraCharacter::SetManaRegen_Implementation(float InManaRegen)
+{
+	return AuraAS->SetManaSiphonRegen(InManaRegen);
 }
 
 void AAuraCharacter::InitAbilityActorInfo()

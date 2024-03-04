@@ -13,5 +13,16 @@ UCLASS()
 class AURA_API UManaSiphonPassiveAbility : public UAuraPassiveAbility
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	virtual FString GetDescription(int32 Level) override;
+	virtual FString GetNextLevelDescription(int32 Level) override;
+
+private:
+	UPROPERTY(EditAnywhere)
+	FScalableFloat ManaSiphonRegen;
+
+	UPROPERTY(EditAnywhere)
+	FScalableFloat ManaSiphonFrequency;
 };

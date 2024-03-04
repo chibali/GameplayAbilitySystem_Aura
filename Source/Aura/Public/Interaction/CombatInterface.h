@@ -59,6 +59,9 @@ public:
 	float GetManaRegen();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetManaRegen(float InManaRegen);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FVector GetCombatSocketLocation(const FGameplayTag& MontageTag);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

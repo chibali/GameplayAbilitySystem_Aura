@@ -73,6 +73,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnPassiveActivatedSignature OnLifeSiphonActivatedDelegate;
 
+
 	UFUNCTION(BlueprintCallable)
 	void OnXPChanged(int32 XP);
 
