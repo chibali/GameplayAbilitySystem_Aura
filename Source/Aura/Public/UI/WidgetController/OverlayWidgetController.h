@@ -33,7 +33,7 @@ struct FUIWidgetRow : public FTableRowBase
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPassiveActivatedSignature, float, OriginalMaxResource, bool, bIsActive);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnLevelUpPassiveActive, float, OriginalMaxResource, float, CurrentMaxResource);
 /**
  * 
  */
@@ -73,12 +73,23 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnPassiveActivatedSignature OnLifeSiphonActivatedDelegate;
 
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+	FOnLevelUpPassiveActive OnLevelUpHaloOfProtectionActive;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+	FOnLevelUpPassiveActive OnLevelUpLifeSiphonActive;
 
 	UFUNCTION(BlueprintCallable)
 	void OnXPChanged(int32 XP);
 
 	UFUNCTION(BlueprintCallable)
 	void OnPassiveAbilityActivated(const FGameplayTag& PassiveTag, bool bIsActive);
+
+	UFUNCTION(BlueprintCallable)
+	void OnHaloOfProtectionActiveLevelUp(float NewMaxMana);
+
+	UFUNCTION(BlueprintCallable)
+	void OnLifeSiphonActiveLevelUp(float NewMaxHealth);
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Widget Data")
@@ -88,6 +99,10 @@ protected:
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 
 	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& AbilityStatus, const FGameplayTag& NewSlot, const FGameplayTag& PreviousSlot);
+
+private:
+	float GetUnreservedMaxMana();
+	float GetUnreservedMaxHealth();
 };
 
 template<typename T>

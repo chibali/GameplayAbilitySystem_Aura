@@ -443,7 +443,6 @@ void UAuraAttributeSet::HandleManaSiphon(const FEffectProperties& Properties)
 				}
 				ICombatInterface::Execute_SetManaRegen(Properties.SourceCharacter, 0.f);
 			}
-			
 		}
 	}
 }
