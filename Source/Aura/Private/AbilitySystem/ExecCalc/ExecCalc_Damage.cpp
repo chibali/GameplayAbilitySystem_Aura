@@ -9,6 +9,7 @@
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/CombatInterface.h"
 #include "AuraAbilityTypes.h"
+#include "Kismet/GameplayStatics.h"
 
 struct AuraDamageStatics
 {
@@ -93,6 +94,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	}
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+	FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
 
 	FAggregatorEvaluateParameters EvaluateParams;
 	EvaluateParams.SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
@@ -123,8 +125,44 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		Resistance = FMath::Clamp(Resistance, 0.f, 100.f);
 
 		DamageTypeValue *= (100.f - Resistance) / 100.f;
+
+		if (UAuraAbilitySystemLibrary::IsRadialDamage(ContextHandle))
+		{
+			// 1. override TakeDamage in CharacterBase. *
+			// 2. create delegate OnDamageDelegate, broadcast damage received in TakeDamage *
+			// 3. Bind lambda to OnDamageDelegate on the Victim here.
+			// 4. Call UGameplayStatics::ApplyRadialDamageWithFalloff to cause damage (This will result in TakeDamage being called on the Victim, which will then boradcast OnDamageDelegate
+			// 5. In Lambda, set DamageTypeValue to the Damage received from the broadcast. *
+
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetAvatar))
+			{
+				CombatInterface->GetOnDamageSignature().AddLambda([&](float DamageAmount) 
+					{
+						DamageTypeValue = DamageAmount;
+					});
+			}
+
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				TargetAvatar,
+				DamageTypeValue,
+				0.f,
+				UAuraAbilitySystemLibrary::GetRadialDamageOrigin(ContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(ContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(ContextHandle),
+				1.f,
+				UDamageType::StaticClass(),
+				TArray<AActor*>(),
+				SourceAvatar,
+				nullptr
+			);
+		}
+
+
+
 		Damage += DamageTypeValue;
 	}
+
+
 
 	// Capture BlockChance on Target, and determine if there was a successful Block. Halve Damage if Block is successful
 
@@ -133,7 +171,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	TargetBlockChance = FMath::Clamp(TargetBlockChance, 0.f, 100.f);
 
 	const bool bIsDamageBlocked = FMath::RandRange(0.f, 100.f) < TargetBlockChance;
-	FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
 	UAuraAbilitySystemLibrary::SetIsBlockedHit(ContextHandle, bIsDamageBlocked);
 
 	Damage = bIsDamageBlocked ? Damage / 2.f : Damage;
