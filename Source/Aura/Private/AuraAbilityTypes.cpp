@@ -88,7 +88,7 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* Map, bo
 			}
 			if (!RadialDamageOrigin.IsZero())
 			{
-				RepBits |= 1 << 20
+				RepBits |= 1 << 20;
 			}
 		}
 	}
