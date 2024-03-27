@@ -36,12 +36,13 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void OnHit();
 
+	bool IsValidOverlap(AActor* OtherActor);
+
+	bool bHit = false;
 private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan = 5.f;
-
-	bool bHit = false;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
