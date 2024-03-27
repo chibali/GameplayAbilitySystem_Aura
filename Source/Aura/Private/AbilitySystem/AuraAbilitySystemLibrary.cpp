@@ -392,6 +392,7 @@ void UAuraAbilitySystemLibrary::SetIsRadialDamageEffectParams(UPARAM(ref)FDamage
 void UAuraAbilitySystemLibrary::SetKnockbackDirection(UPARAM(ref)FDamageEffectParams& DamageEffectParams, FVector KnockbackDirection, float Magnitude)
 {
 	KnockbackDirection.Normalize();
+	DamageEffectParams.KnockbackChance = 100.f;
 	if (Magnitude == 0.f)
 	{
 		DamageEffectParams.Knockback = KnockbackDirection * DamageEffectParams.KnockbackMagnitude;
