@@ -119,6 +119,7 @@ public:
 	FGameplayTag Player_Block_CursorTrace;
 	FGameplayTag Player_Block_LifeSiphon;
 	
+	FGameplayTag GameplayCue_FireBlast;
 
 private:
 	static FAuraGameplayTags GameplayTags;

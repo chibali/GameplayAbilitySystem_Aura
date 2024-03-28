@@ -4,6 +4,9 @@
 #include "Actor/AuraFireBall.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Components/AudioComponent.h"
+#include "GameplayCueManager.h"
+#include "AuraGameplayTags.h"
 
 // Sets default values
 AAuraFireBall::AAuraFireBall()
@@ -32,6 +35,23 @@ void AAuraFireBall::BeginPlay()
 {
 	Super::BeginPlay();
 	StartOutgoingTimeline();
+}
+
+void AAuraFireBall::OnHit()
+{
+	if (GetOwner())
+	{
+		FGameplayCueParameters CueParams;
+		CueParams.Location = GetActorLocation();
+		UGameplayCueManager::ExecuteGameplayCue_NonReplicated(GetOwner(), FAuraGameplayTags::Get().GameplayCue_FireBlast, CueParams);
+	}
+
+	if (SpawnedHissComponent)
+	{
+		SpawnedHissComponent->Stop();
+		SpawnedHissComponent->DestroyComponent();
+	}
+	bHit = true;
 }
 
 

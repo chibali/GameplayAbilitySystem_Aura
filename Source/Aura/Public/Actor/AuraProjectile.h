@@ -34,11 +34,15 @@ protected:
 	virtual void Destroyed() override;
 
 	UFUNCTION(BlueprintCallable)
-	void OnHit();
+	virtual void OnHit();
 
 	bool IsValidOverlap(AActor* OtherActor);
 
 	bool bHit = false;
+
+	UPROPERTY()
+	TObjectPtr<UAudioComponent> SpawnedHissComponent;
+
 private:
 
 	UPROPERTY(EditDefaultsOnly)
@@ -59,6 +63,5 @@ private:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundBase> HissSound;
 
-	UPROPERTY()
-	TObjectPtr<UAudioComponent> SpawnedHissComponent;
+	
 };
