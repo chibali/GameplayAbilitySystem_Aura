@@ -29,6 +29,15 @@ public:
 	void SetNumLoadSlots(int32 InNumLoadSlots);
 	int32 GetNumLoadSlots() const { return NumLoadSlots; }
 
+	UFUNCTION(BlueprintCallable)
+	void NewSlotButtonPressed(int32 Slot, const FString& EnteredName);
+
+	UFUNCTION(BlueprintCallable)
+	void NewGameButtonPressed(int32 Slot);
+
+	UFUNCTION(BlueprintCallable)
+	void SelectSlotButtonPressed(int32 Slot);
+
 private:
 
 	UPROPERTY()
