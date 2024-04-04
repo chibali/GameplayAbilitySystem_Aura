@@ -95,6 +95,7 @@ public:
 	/*
 	* Attributes for Temporary Boosts
 	*/
+
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_FireResistanceBonus, Category = "Bonus Attributes")
 	FGameplayAttributeData FireResistanceBonus;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireResistanceBonus);
