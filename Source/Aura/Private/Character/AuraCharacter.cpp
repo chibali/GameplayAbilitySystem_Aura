@@ -47,12 +47,43 @@ AAuraCharacter::AAuraCharacter()
 	CharacterClass = ECharacterClass::Elementalist;
 }
 
+
+void AAuraCharacter::LoadProgress()
+{
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (AuraGameMode)
+	{
+		ULoadScreenSaveGame* SaveData = AuraGameMode->RetrieveInGameSaveData();
+		if (SaveData == nullptr) return;
+
+		if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
+		{
+			AuraPlayerState->SetLevel(SaveData->PlayerLevel);
+			AuraPlayerState->SetXP(SaveData->PlayerXP);
+			AuraPlayerState->SetAttributePoints(SaveData->AttributePoints);
+			AuraPlayerState->SetSpellPoints(SaveData->SpellPoints);
+		}
+
+		if (SaveData->bFirstTimeLoadIn)
+		{
+			InitializeDefaultAttributes();
+			AddCharacterAbilities();
+		}
+		else
+		{
+
+		}
+	}
+}
+
 void AAuraCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
 	// Initiliaze ability actor info for the server
 	InitAbilityActorInfo();
+	LoadProgress();
+
 	AddCharacterAbilities();
 	AuraAS = Cast<UAuraAttributeSet>(AttributeSet);
 	check(AuraAS);
@@ -225,7 +256,7 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 		{
 			SaveData->PlayerLevel = AuraPlayerState->GetPlayerLevel();
 			SaveData->PlayerXP = AuraPlayerState->GetXP();
-			SaveData->Spellpoints = AuraPlayerState->GetSpellPoints();
+			SaveData->SpellPoints = AuraPlayerState->GetSpellPoints();
 			SaveData->AttributePoints = AuraPlayerState->GetAttributePoints();
 		}
 
@@ -234,6 +265,7 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 		SaveData->Dexterity = UAuraAttributeSet::GetDexterityAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->Resilience = UAuraAttributeSet::GetResilienceAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->Vigor = UAuraAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->bFirstTimeLoadIn = false;
 
 		AuraGameMode->SaveInGameProgressData(SaveData);
 	}
@@ -260,6 +292,7 @@ void AAuraCharacter::SetManaRegen_Implementation(float InManaRegen)
 {
 	return AuraAS->SetManaSiphonRegen(InManaRegen);
 }
+
 
 void AAuraCharacter::InitAbilityActorInfo()
 {

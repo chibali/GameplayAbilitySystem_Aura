@@ -50,7 +50,7 @@ public:
 	int32 PlayerXP = 0;
 
 	UPROPERTY()
-	int32 Spellpoints = 0;
+	int32 SpellPoints = 0;
 
 	UPROPERTY()
 	int32 AttributePoints = 0;
@@ -70,6 +70,9 @@ public:
 
 	UPROPERTY()
 	float Vigor = 0;
+
+	UPROPERTY()
+	bool bFirstTimeLoadIn = true;
 
 	/*UPROPERTY()
 	float FireResistanceBonus = 0;

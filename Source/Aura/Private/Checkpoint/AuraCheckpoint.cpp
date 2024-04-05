@@ -43,3 +43,4 @@ void AAuraCheckpoint::HandleGlowEffects()
 	CheckpointMesh->SetMaterial(0, DynamicMaterialInstance);
 	CheckpointReached(DynamicMaterialInstance);
 }
+
