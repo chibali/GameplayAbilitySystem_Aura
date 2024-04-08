@@ -20,7 +20,12 @@ class AURA_API AAuraCheckpoint : public APlayerStart, public ISaveInterface
 public:
 	AAuraCheckpoint(const FObjectInitializer& ObjectInitializer);
 
-	UPROPERTY(SaveGame)
+	/*Save Interface*/
+	virtual bool ShouldLoadTransform_Implementation() override { return false; };
+	virtual void LoadActor_Implementation() override;
+	/*Save Interface*/
+
+	UPROPERTY(BlueprintReadOnly, SaveGame)
 	bool bReached = false;
 
 protected:
