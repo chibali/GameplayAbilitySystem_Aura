@@ -38,6 +38,9 @@ public:
 
 	FGameplayTag Attributes_Meta_IncomingXP;
 
+	FGameplayTag Attributes_Cost_HaloOfProtectionCost;
+	FGameplayTag Attributes_Cost_LifeSiphonCost;
+
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
 	FGameplayTag InputTag_1;

@@ -40,6 +40,9 @@ UAuraAttributeSet::UAuraAttributeSet()
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
 	TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
+
+	TagsToAttributes.Add(GameplayTags.Attributes_Cost_HaloOfProtectionCost, GetHaloOfProtectionCostAttribute);
+	TagsToAttributes.Add(GameplayTags.Attributes_Cost_LifeSiphonCost, GetLifeSiphonCostAttribute);
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

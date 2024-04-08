@@ -6,6 +6,7 @@
 #include "NiagaraComponent.h"
 #include "GameplayTagContainer.h"
 #include "PassiveNiagaraComponent.generated.h"
+
 class UAuraAbilitySystemComponent;
 /**
  * 

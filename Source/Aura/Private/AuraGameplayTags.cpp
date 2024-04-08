@@ -41,6 +41,9 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"), FString("Damage"));
 
+	GameplayTags.Attributes_Cost_HaloOfProtectionCost = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Cost.HaloOfProtectionCost"), FString("Halo Of Protection passive ability cost"));
+	GameplayTags.Attributes_Cost_LifeSiphonCost = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Cost.LifeSiphonCost"), FString("Life Siphon passive ability cost"));
+
 	// Damage Types
 	
 	GameplayTags.Damage_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage.Fire"), FString("Fire Damage Type"));
@@ -109,6 +112,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Abilities_Passive_HaloOfProtection = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Passive.HaloOfProtection"), FString("Halo Of Protection Passive"));
 	GameplayTags.Abilities_Passive_LifeSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Passive.LifeSiphon"), FString("Life Siphon Passive"));
 	GameplayTags.Abilities_Passive_ManaSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Abilities.Passive.ManaSiphon"), FString("Mana Siphon Passive"));
+	
 
 	// Cooldowns
 
