@@ -74,7 +74,7 @@ public:
 	UPROPERTY()
 	bool bFirstTimeLoadIn = true;
 
-	/*UPROPERTY()
+	UPROPERTY()
 	float FireResistanceBonus = 0;
 
 	UPROPERTY()
@@ -96,7 +96,7 @@ public:
 	float LifeSiphonCost = 0;
 
 	UPROPERTY()
-	float ManaSiphonRegen = 0;*/
+	float ManaSiphonRegen = 0;
 
 
 };

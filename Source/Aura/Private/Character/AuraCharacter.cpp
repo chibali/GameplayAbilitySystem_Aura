@@ -5,6 +5,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
 #include "NiagaraComponent.h" 
@@ -19,6 +20,7 @@
 #include "Game/LoadScreenSaveGame.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
+
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -56,14 +58,6 @@ void AAuraCharacter::LoadProgress()
 		ULoadScreenSaveGame* SaveData = AuraGameMode->RetrieveInGameSaveData();
 		if (SaveData == nullptr) return;
 
-		if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
-		{
-			AuraPlayerState->SetLevel(SaveData->PlayerLevel);
-			AuraPlayerState->SetXP(SaveData->PlayerXP);
-			AuraPlayerState->SetAttributePoints(SaveData->AttributePoints);
-			AuraPlayerState->SetSpellPoints(SaveData->SpellPoints);
-		}
-
 		if (SaveData->bFirstTimeLoadIn)
 		{
 			InitializeDefaultAttributes();
@@ -71,7 +65,16 @@ void AAuraCharacter::LoadProgress()
 		}
 		else
 		{
+			// TODO : LOAD ABILITIES
 
+			if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
+			{
+				AuraPlayerState->SetLevel(SaveData->PlayerLevel);
+				AuraPlayerState->SetXP(SaveData->PlayerXP);
+				AuraPlayerState->SetAttributePoints(SaveData->AttributePoints);
+				AuraPlayerState->SetSpellPoints(SaveData->SpellPoints);
+			}
+			UAuraAbilitySystemLibrary::InitializeDefaultAttributesFromSaveData(this, AbilitySystemComponent, SaveData);
 		}
 	}
 }
@@ -84,7 +87,6 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	InitAbilityActorInfo();
 	LoadProgress();
 
-	AddCharacterAbilities();
 	AuraAS = Cast<UAuraAttributeSet>(AttributeSet);
 	check(AuraAS);
 }
@@ -265,6 +267,14 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 		SaveData->Dexterity = UAuraAttributeSet::GetDexterityAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->Resilience = UAuraAttributeSet::GetResilienceAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->Vigor = UAuraAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->FireResistanceBonus = UAuraAttributeSet::GetFireResistanceBonusAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->LightningResistanceBonus = UAuraAttributeSet::GetLightningResistanceBonusAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->ArcaneResistanceBonus = UAuraAttributeSet::GetArcaneResistanceBonusAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->PhysicalResistanceBonus = UAuraAttributeSet::GetPhysicalResistanceBonusAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->HaloOfProtectionCost = UAuraAttributeSet::GetHaloOfProtectionCostAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->LifeSteal = UAuraAttributeSet::GetLifeStealAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->LifeSiphonCost = UAuraAttributeSet::GetLifeSiphonCostAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->ManaSiphonRegen = UAuraAttributeSet::GetManaSiphonRegenAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->bFirstTimeLoadIn = false;
 
 		AuraGameMode->SaveInGameProgressData(SaveData);
