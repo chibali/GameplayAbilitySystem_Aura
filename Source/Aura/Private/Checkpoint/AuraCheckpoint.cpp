@@ -7,6 +7,7 @@
 #include "Game/AuraGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
+
 AAuraCheckpoint::AAuraCheckpoint(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -16,11 +17,17 @@ AAuraCheckpoint::AAuraCheckpoint(const FObjectInitializer& ObjectInitializer) : 
 	CheckpointMesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	CheckpointMesh->SetCollisionResponseToAllChannels(ECR_Block);
 
+	CheckpointMesh->SetCustomDepthStencilValue(CustomDepthStencilOverride);
+	CheckpointMesh->MarkRenderStateDirty();
+
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	Sphere->SetupAttachment(CheckpointMesh);
 	Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
 	Sphere->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+
+	MoveToComponent = CreateDefaultSubobject<USceneComponent>("MoveToComponent");
+	MoveToComponent->SetupAttachment(GetRootComponent());
 }
 
 void AAuraCheckpoint::LoadActor_Implementation()
@@ -29,6 +36,21 @@ void AAuraCheckpoint::LoadActor_Implementation()
 	{
 		HandleGlowEffects();
 	}
+}
+
+void AAuraCheckpoint::SetMoveToLocation_Implementation(FVector& OutLocation)
+{
+	OutLocation = MoveToComponent->GetComponentLocation();
+}
+
+void AAuraCheckpoint::HighlightActor_Implementation()
+{
+	CheckpointMesh->SetRenderCustomDepth(true);
+}
+
+void AAuraCheckpoint::UnHighlightActor_Implementation()
+{
+	CheckpointMesh->SetRenderCustomDepth(false);
 }
 
 void AAuraCheckpoint::OnSphereOverlap(UPrimitiveComponent* OverlapComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

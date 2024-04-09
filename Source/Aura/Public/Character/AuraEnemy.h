@@ -32,6 +32,7 @@ public:
 	//~ Begin Interface Interface
 	virtual void HighlightActor_Implementation() override;
 	virtual void UnHighlightActor_Implementation() override;
+	virtual void SetMoveToLocation_Implementation(FVector& OutLocation) override;
 	//~ End Interface Interface
 	// 
 	//~ Begin Enemy Interface

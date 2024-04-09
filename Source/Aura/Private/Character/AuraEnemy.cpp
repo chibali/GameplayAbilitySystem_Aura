@@ -156,6 +156,11 @@ void AAuraEnemy::UnHighlightActor_Implementation()
 	}	
 }
 
+void AAuraEnemy::SetMoveToLocation_Implementation(FVector& OutLocation)
+{
+	// Do not change OutLocation
+}
+
 void AAuraEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget) 
 {
 	CombatTarget = InCombatTarget;
