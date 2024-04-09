@@ -10,7 +10,7 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
-class IEnemyInterface;
+class IHighlightInterface;
 class UAuraInputConfig;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
@@ -61,8 +61,8 @@ private:
 	bool bShiftKeyDown = false;
 
 	void CursorTrace();
-	IEnemyInterface* LastActor;
-	IEnemyInterface* CurrentActor;
+	IHighlightInterface* LastActor;
+	IHighlightInterface* CurrentActor;
 	FHitResult CursorHit;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
