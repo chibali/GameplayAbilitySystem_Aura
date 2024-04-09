@@ -102,15 +102,8 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-		if (IsValid(CurrentActor))
-		{
-			TargetingStatus = CurrentActor->Implements<UEnemyInterface>() ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNotEnemy;
-			bAutoRunning = false;
-		}
-		else
-		{
-			TargetingStatus = ETargetingStatus::NotTargeting;
-		}
+		TargetingStatus = CurrentActor->Implements<UEnemyInterface>() ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNotEnemy;
+		bAutoRunning = false;
 	}	
 	if (GetASC()) GetASC()->AbilityInputTagPressed(InputTag);
 }

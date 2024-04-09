@@ -30,8 +30,8 @@ public:
 	virtual void Die(const FVector& InDeathImpulse) override;
 
 	//~ Begin Interface Interface
-	virtual void HighlightActor() override;
-	virtual void UnHighlightActor() override;
+	virtual void HighlightActor_Implementation() override;
+	virtual void UnHighlightActor_Implementation() override;
 	//~ End Interface Interface
 	// 
 	//~ Begin Enemy Interface
