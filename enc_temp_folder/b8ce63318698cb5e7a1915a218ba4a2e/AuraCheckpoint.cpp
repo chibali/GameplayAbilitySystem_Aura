@@ -45,10 +45,7 @@ void AAuraCheckpoint::SetMoveToLocation_Implementation(FVector& OutLocation)
 
 void AAuraCheckpoint::HighlightActor_Implementation()
 {
-	if(!bReached)
-	{
-		CheckpointMesh->SetRenderCustomDepth(true);
-	}
+	CheckpointMesh->SetRenderCustomDepth(true);
 }
 
 void AAuraCheckpoint::UnHighlightActor_Implementation()
