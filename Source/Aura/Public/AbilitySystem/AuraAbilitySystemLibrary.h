@@ -16,6 +16,7 @@ class UAbilityInfo;
 struct FDamageEffectParams;
 struct FGameplayTag;
 class ULoadScreenSaveGame;
+class ULootTiers;
 /**
  * 
  */
@@ -55,6 +56,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults", meta = (DefaultToSelf = "WorldContextObject"))
+	static ULootTiers* GetLootTiers(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults")
 	static float GetXPForClassAndLevel(const UObject* WorldContextObject, int32 Level, ECharacterClass CharacterClass);
