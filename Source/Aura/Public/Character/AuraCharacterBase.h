@@ -96,6 +96,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TMap<FGameplayTag, FName> MontageTagToSocket;
 
+	UPROPERTY(BlueprintReadOnly)
 	bool bDead = false;
 
 	UPROPERTY()

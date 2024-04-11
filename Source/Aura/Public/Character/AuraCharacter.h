@@ -51,7 +51,13 @@ public:
 	virtual float GetLifeSteal_Implementation() override;
 	virtual float GetManaRegen_Implementation() override;
 	virtual void SetManaRegen_Implementation(float InManaRegen) override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	//~ End Combat Interface
+
+	UPROPERTY(EditDefaultsOnly)
+	float DeathTime = 5.f;
+
+	FTimerHandle DeathTimer;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
