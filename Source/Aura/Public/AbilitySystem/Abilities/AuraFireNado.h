@@ -6,6 +6,8 @@
 #include "AbilitySystem/Abilities/AuraDamageGameplayAbility.h"
 #include "AuraFireNado.generated.h"
 
+class AAuraTornado;
+
 /**
  * 
  */
@@ -16,4 +18,9 @@ class AURA_API UAuraFireNado : public UAuraDamageGameplayAbility
 public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnFireNado(const FVector& TargetLocation);
+
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<AAuraTornado> TornadoClass;
 };
