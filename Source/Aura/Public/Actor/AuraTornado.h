@@ -32,6 +32,7 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void Destroyed() override;
+	bool IsValidOverlap(AActor* OtherActor);
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UCapsuleComponent> Capsule;
@@ -47,4 +48,17 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float TornadoLifespan = 5.f;
+
+private:
+
+	FTimerHandle DamageTimer;
+
+	UPROPERTY(EditDefaultsOnly)
+	float DamageDelay = 0.5f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float DamageRate = 1.f;
+
+	UFUNCTION()
+	void ApplyDamage();
 };

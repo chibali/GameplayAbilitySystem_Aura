@@ -21,7 +21,7 @@ void UAuraFireNado::SpawnFireNado(const FVector& TargetLocation)
 
 	// TO DO: Assign Radial Damage
 	// 
-	// Tornado->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+	Tornado->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 
 	Tornado->FinishSpawning(SpawnTransform);
 }
