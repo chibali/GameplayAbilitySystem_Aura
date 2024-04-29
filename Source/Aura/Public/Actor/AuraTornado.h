@@ -59,6 +59,15 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float DamageRate = 1.f;
 
+	UPROPERTY(EditDefaultsOnly)
+	float PullbackFactor = 1.f;
+
 	UFUNCTION()
 	void ApplyDamage();
+
+	UPROPERTY(EditDefaultsOnly)
+	float TornadoHalfHeightRadius = 160.f;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USceneComponent> TornadoCenter;
 };

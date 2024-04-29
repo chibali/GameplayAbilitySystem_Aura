@@ -8,10 +8,12 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "TimerManager.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Interaction/EnemyInterface.h"
 
 AAuraTornado::AAuraTornado()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
 
 	Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
@@ -29,6 +31,9 @@ AAuraTornado::AAuraTornado()
 	TornadoEffect = CreateDefaultSubobject<UNiagaraComponent>("Tornado Effect");
 	TornadoEffect->SetupAttachment(TornadoMesh);
 	TornadoEffect->Deactivate();
+
+	TornadoCenter = CreateDefaultSubobject<USceneComponent>(TEXT("Center"));
+	TornadoCenter->SetupAttachment(GetRootComponent());
 }
 
 void AAuraTornado::BeginPlay()
@@ -95,5 +100,31 @@ void AAuraTornado::ApplyDamage()
 void AAuraTornado::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	TArray<AActor*> OverlappingEnemies;
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(this);
+
+	if (DamageEffectParams.SourceAbilitySystemComponent != nullptr)
+	{
+		ActorsToIgnore.Add(DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor());
+	}
+
+	UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(this, OverlappingEnemies, ActorsToIgnore, TornadoHalfHeightRadius, TornadoCenter->GetComponentLocation());
+
+	if (OverlappingEnemies.Num() > 0)
+	{
+		for (AActor* Actor : OverlappingEnemies)
+		{
+			if (Actor->Implements<UEnemyInterface>())
+			{
+				FVector PullbackForce = (TornadoCenter->GetComponentLocation() - Actor->GetActorLocation()) * PullbackFactor;
+				IEnemyInterface::Execute_ApplyForceToTarget(Actor, PullbackForce);
+			}
+		}
+	}
+
+	
+
 }
 

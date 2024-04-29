@@ -38,6 +38,7 @@ public:
 	//~ Begin Enemy Interface
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() const override;
+	void ApplyForceToTarget_Implementation(FVector Force);
 	//~ End Enemy Interface
 
 	//~ Begin Combat Interface

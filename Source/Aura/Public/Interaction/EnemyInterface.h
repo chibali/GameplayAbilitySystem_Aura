@@ -28,4 +28,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	AActor* GetCombatTarget() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void ApplyForceToTarget(FVector Force);
 };

@@ -172,6 +172,13 @@ AActor* AAuraEnemy::GetCombatTarget_Implementation() const
 	return CombatTarget;
 }
 
+void AAuraEnemy::ApplyForceToTarget_Implementation(FVector Force)
+{
+	UCharacterMovementComponent* EnemyCharacterMovement = GetCharacterMovement();
+	EnemyCharacterMovement->AddForce(Force);
+	
+}
+
 int32 AAuraEnemy::GetPlayerLevel_Implementation()
 {
 	return Level;

@@ -19,6 +19,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnFireNado(const FVector& TargetLocation);
 
+	virtual FString GetDescription(int32 Level) override;
+	virtual FString GetNextLevelDescription(int32 Level) override;
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
